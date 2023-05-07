@@ -1,5 +1,7 @@
 # Sparrow / 麻雀
 
+<img src=".github/logo.png" width="30%">
+
 ChatGPT Style client-compatible Backend Server, open source implementation.
 
 ## About This Project
