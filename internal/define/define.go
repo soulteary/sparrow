@@ -1,0 +1,26 @@
+package define
+
+import (
+	"os"
+	"strings"
+)
+
+var (
+	DEV_MODE = false // Development mode
+)
+
+var (
+	APP_PORT            = GetPortString("APP_PORT", DEFAULT_APP_PORT)
+	WEB_CLIENT_HOSTNAME = GetHostName("WEB_CLIENT_HOSTNAME", DEFAULT_WEB_CLIENT_HOSTNAME)
+
+	ENABLE_HISTORY_LIST      = GetBool("ENABLE_HISTORY_LIST", false)      // Enable history list
+	ENABLE_I18N              = GetBool("ENABLE_I18N", true)               // Enable i18n
+	ENABLE_DATA_CONTROL      = GetBool("ENABLE_DATA_CONTROL", false)      // Enable the data control
+	ENABLE_MODEL_SWITCH      = GetBool("ENABLE_MODEL_SWITCH", true)       // Enable the model switch
+	ENABLE_PAID_SUBSCRIPTION = GetBool("ENABLE_PAID_SUBSCRIPTION", false) // Enable the subscription
+
+	ENABLE_OPENAI_API       = GetBool("ENABLE_35_API", false)                                     // Enable OpenAI 3.5 API
+	OPENAI_API_KEY          = strings.TrimSpace(os.Getenv("OPENAI_API_KEY"))                      // OpenAI API Key
+	ENABLE_OPENAI_API_PROXY = GetBool("OPENAI_API_PROXY_ENABLE", false)                           // enable OpenAI API Proxy
+	OPENAI_API_PROXY_ADDR   = GetHostName("OPENAI_API_PROXY_ADDR", DEFAULT_OPENAI_API_PROXY_ADDR) // OpenAI API Proxy Address
+)
