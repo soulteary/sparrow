@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	"github.com/soulteary/sparrow/internal/api/account"
+	"github.com/soulteary/sparrow/internal/api/aip"
 	"github.com/soulteary/sparrow/internal/api/conversation"
 	"github.com/soulteary/sparrow/internal/api/conversations"
 	"github.com/soulteary/sparrow/internal/api/gentitle"
@@ -39,7 +40,7 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		// The page configuration interface prepared for the front end
 		backendAPI.GET("/pageconfig", pageconfig.GetConfig)
 		// AI Plugin
-		// backendAPI.GET("/aip/p", aip.GetAIP)
+		backendAPI.GET("/aip/p", aip.GetAIP)
 		// Misc
 		backendAPI.GET("/opengraph/tags", opengraph.OpengraphTag)
 	}
