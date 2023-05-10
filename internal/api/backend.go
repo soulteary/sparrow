@@ -9,6 +9,7 @@ import (
 	"github.com/soulteary/sparrow/internal/api/gentitle"
 	"github.com/soulteary/sparrow/internal/api/models"
 	"github.com/soulteary/sparrow/internal/api/moderations"
+	"github.com/soulteary/sparrow/internal/api/opengraph"
 	"github.com/soulteary/sparrow/internal/api/pageconfig"
 )
 
@@ -40,6 +41,6 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		// AI Plugin
 		// backendAPI.GET("/aip/p", aip.GetAIP)
 		// Misc
-		// backendAPI.GET("/opengraph/tags", opengraph.OpengraphTag)
+		backendAPI.GET("/opengraph/tags", opengraph.OpengraphTag)
 	}
 }
