@@ -3,15 +3,16 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
+	"github.com/soulteary/sparrow/internal/api/account"
 )
 
 func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
-	// backendAPI := r.Group("/backend-api")
+	backendAPI := r.Group("/backend-api")
 	{
 		// // account
 		// backendAPI.GET("/accounts/check", account.AccountCheck)
 		// backendAPI.POST("/accounts/data_export", account.DataExport)
-		// backendAPI.POST("/accounts/deactivate", account.Deactivate)
+		backendAPI.POST("/accounts/deactivate", account.Deactivate)
 		// // share
 		// backendAPI.POST("/share/create", share.Create)
 		// backendAPI.PATCH("/share/", share.Create)

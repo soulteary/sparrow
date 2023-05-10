@@ -5,9 +5,9 @@ import (
 	"github.com/soulteary/sparrow/internal/define"
 )
 
-func AuthSession() datatypes.API_SESSION {
-	data := datatypes.API_SESSION{
-		User: datatypes.API_SESSION_USER{
+func AuthSession() datatypes.Session {
+	data := datatypes.Session{
+		User: datatypes.SessionUser{
 			ID:           define.MOCK_USER_ID,
 			Name:         define.MOCK_USER_NAME,
 			Email:        define.MOCK_USER_EMAIL,
