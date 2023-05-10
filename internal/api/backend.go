@@ -11,7 +11,7 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 	{
 		// // account
 		// backendAPI.GET("/accounts/check", account.AccountCheck)
-		// backendAPI.POST("/accounts/data_export", account.DataExport)
+		backendAPI.POST("/accounts/data_export", account.DataExport)
 		backendAPI.POST("/accounts/deactivate", account.Deactivate)
 		// // share
 		// backendAPI.POST("/share/create", share.Create)

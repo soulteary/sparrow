@@ -8,3 +8,10 @@ func Deactivate() datatypes.Deactivate {
 	}
 	return data
 }
+
+func DataExport() datatypes.Deactivate {
+	data := datatypes.Deactivate{
+		Status: "queued",
+	}
+	return data
+}
