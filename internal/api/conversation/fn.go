@@ -42,7 +42,7 @@ func RandomSleep() {
 	if k >= 110 {
 		k = rand.Intn(500-300+1) + 300
 	}
-	time.Sleep(time.Millisecond * time.Duration(k))
+	time.Sleep(time.Millisecond * time.Duration(k/define.RESPONSE_SPEED))
 }
 
 func ContainMarkdownImage(str string) bool {

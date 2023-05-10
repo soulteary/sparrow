@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 
 	UUID "github.com/google/uuid"
@@ -65,4 +66,20 @@ func GenerateRandomString(length int) string {
 
 func GenerateUUID() string {
 	return UUID.New().String()
+}
+
+func GetGenerateSpeed(envKey string, def int) int {
+	env := strings.ToLower(strings.TrimSpace(os.Getenv(envKey)))
+	if env != "" {
+		var REGEXP_PURE_NUMBER = regexp.MustCompile(`^\d{1,2}$`)
+		appMultipleMatchFromEnv := REGEXP_PURE_NUMBER.FindAllString(env, -1)
+		if len(appMultipleMatchFromEnv) == 1 {
+			num, err := strconv.Atoi(appMultipleMatchFromEnv[0])
+			if err != nil {
+				return def
+			}
+			return num
+		}
+	}
+	return def
 }

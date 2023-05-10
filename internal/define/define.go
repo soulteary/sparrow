@@ -12,6 +12,7 @@ var (
 var (
 	APP_PORT            = GetPortString("APP_PORT", DEFAULT_APP_PORT)
 	WEB_CLIENT_HOSTNAME = GetHostName("WEB_CLIENT_HOSTNAME", DEFAULT_WEB_CLIENT_HOSTNAME)
+	RESPONSE_SPEED      = GetGenerateSpeed("RESPONSE_SPEED", 10)
 
 	ENABLE_HISTORY_LIST      = GetBool("ENABLE_HISTORY_LIST", true)       // Enable history list
 	ENABLE_I18N              = GetBool("ENABLE_I18N", true)               // Enable i18n

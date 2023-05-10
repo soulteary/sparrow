@@ -19,7 +19,7 @@ func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, prompt string
 		return false
 	}
 
-	simulateDelay := 800
+	simulateDelay := 800 / define.RESPONSE_SPEED
 	if define.DEV_MODE {
 		simulateDelay = 10
 	}
@@ -48,7 +48,7 @@ func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, prompt string
 }
 
 func MakeMessageSequence(parentMessageID string, conversationID string, userInput string) (ret []string) {
-	return MakeStreamingMessage("The administrator has disabled the export capability of this model.", conversationID)
+	return MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", conversationID)
 }
 
 func MakeResponseMessage(text string, conversationID string, newMessageID string, endTurn bool) datatypes.ConversationMessageGenerated {
