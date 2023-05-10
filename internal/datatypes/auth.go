@@ -1,4 +1,4 @@
-package auth
+package datatypes
 
 type API_SESSION struct {
 	User         API_SESSION_USER `json:"user"`
