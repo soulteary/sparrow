@@ -6,6 +6,7 @@ import (
 	"time"
 
 	eb "github.com/soulteary/sparrow/components/event-broker"
+	OpenaiAPI "github.com/soulteary/sparrow/connectors/openai-api"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
 	"github.com/soulteary/sparrow/internal/mock"
@@ -48,6 +49,9 @@ func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, prompt string
 }
 
 func MakeMessageSequence(parentMessageID string, conversationID string, userInput string) (ret []string) {
+	if define.ENABLE_OPENAI_API {
+		return MakeStreamingMessage(OpenaiAPI.Get(userInput), conversationID)
+	}
 	return MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", conversationID)
 }
 
