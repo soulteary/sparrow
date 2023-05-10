@@ -86,3 +86,7 @@ type PluginConversationMessageMeta struct {
 type ConversationMessageMetaTS struct {
 	Timestamp string `json:"timestamp,omitempty"`
 }
+
+type UpdateConversationResponse struct {
+	Success bool `json:"success"`
+}

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
 	"github.com/soulteary/sparrow/internal/mock"
 )
@@ -15,4 +16,8 @@ func GetConversationById(c *gin.Context) {
 		id := c.Param("id")
 		c.JSON(http.StatusOK, mock.GetConversationById(id))
 	}
+}
+
+func UpdateConversation(c *gin.Context) {
+	c.JSON(http.StatusOK, datatypes.UpdateConversationResponse{Success: true})
 }
