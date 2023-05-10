@@ -218,3 +218,32 @@ func TestGetHostName(t *testing.T) {
 		})
 	}
 }
+
+func TestGenerateRandomString(t *testing.T) {
+	tests := []struct {
+		name   string
+		length int
+	}{
+		{
+			name:   "length 0",
+			length: 0,
+		},
+		{
+			name:   "length 10",
+			length: 10,
+		},
+		{
+			name:   "length 20",
+			length: 20,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := define.GenerateRandomString(test.length)
+			if len(got) != test.length {
+				t.Errorf("GenerateRandomString(%d) = %s; length mismatch", test.length, got)
+			}
+		})
+	}
+}

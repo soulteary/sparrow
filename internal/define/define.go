@@ -18,6 +18,7 @@ var (
 	ENABLE_DATA_CONTROL      = GetBool("ENABLE_DATA_CONTROL", false)      // Enable the data control
 	ENABLE_MODEL_SWITCH      = GetBool("ENABLE_MODEL_SWITCH", true)       // Enable the model switch
 	ENABLE_PAID_SUBSCRIPTION = GetBool("ENABLE_PAID_SUBSCRIPTION", false) // Enable the subscription
+	ENABLE_PLUGIN            = GetBool("ENABLE_PLUGIN", false)            // Enable the plugin
 
 	ENABLE_OPENAI_API       = GetBool("ENABLE_35_API", false)                                     // Enable OpenAI 3.5 API
 	OPENAI_API_KEY          = strings.TrimSpace(os.Getenv("OPENAI_API_KEY"))                      // OpenAI API Key

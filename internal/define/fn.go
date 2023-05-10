@@ -1,7 +1,9 @@
 package define
 
 import (
+	"crypto/rand"
 	"fmt"
+	"math/big"
 	"net/url"
 	"os"
 	"regexp"
@@ -44,4 +46,17 @@ func GetHostName(envKey string, def string) string {
 	}
 
 	return strings.TrimSuffix(fmt.Sprintf("%s://%s%s", u.Scheme, u.Host, u.Path), "/")
+}
+
+func GenerateRandomString(length int) string {
+	const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	var result string
+	for i := 0; i < length; i++ {
+		n, err := rand.Int(rand.Reader, big.NewInt(int64(len(letters))))
+		if err != nil {
+			panic(err)
+		}
+		result += string(letters[n.Int64()])
+	}
+	return result
 }
