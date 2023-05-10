@@ -6,6 +6,7 @@ import (
 	"github.com/soulteary/sparrow/internal/api/account"
 	"github.com/soulteary/sparrow/internal/api/conversation"
 	"github.com/soulteary/sparrow/internal/api/conversations"
+	"github.com/soulteary/sparrow/internal/api/gentitle"
 	"github.com/soulteary/sparrow/internal/api/models"
 	"github.com/soulteary/sparrow/internal/api/pageconfig"
 )
@@ -24,8 +25,8 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		backendAPI.GET("/models", models.GetModels)
 		// conversation
 		// backendAPI.POST("/moderations", moderations.GetModerations)
-		// backendAPI.POST("/conversation/gen_title/", gentitle.GetTitle)
-		// backendAPI.POST("/conversation/gen_title/:uuid", gentitle.GetTitle)
+		backendAPI.POST("/conversation/gen_title/", gentitle.GetTitle)
+		backendAPI.POST("/conversation/gen_title/:uuid", gentitle.GetTitle)
 		backendAPI.GET("/conversation/:id", conversation.GetConversationById)
 		backendAPI.PATCH("/conversation/:id", conversation.UpdateConversation)
 		// backendAPI.POST("/conversation", conversation.CreateConversation(brokers))
