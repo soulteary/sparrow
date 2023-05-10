@@ -10,6 +10,7 @@ var brokerPool = eb.NewBrokerManager(256)
 
 func main() {
 	engine := server.SetupEngine()
+	engine.Use(server.Recovery())
 	api.AuthSession(engine)
 	api.Public(engine)
 	api.Backend(engine, brokerPool)
