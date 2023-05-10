@@ -4,6 +4,26 @@
 
 ChatGPT Style client-compatible Backend Server, open source implementation.
 
+## Usage
+
+You need to use it in combination with the ChatGPT Web Client project.
+
+If used alone, you can refer to the following command:
+
+```bash
+# download this project image from dockerhub
+docker pull soulteary/sparrow
+# refer to `docker-compose.yml` to add some environment variables you need
+docker run -p 8091:8091 soulteary/sparrow
+```
+
+or, download the `docker-compose.yml` from the project, and use the following command:
+
+```bash
+docker compose up -d
+```
+
+
 ## About This Project
 
 - Wouldn't it be interesting if the content in the ChatGPT ecosystem could be connected and then called to any other service?
