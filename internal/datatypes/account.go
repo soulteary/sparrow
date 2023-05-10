@@ -20,7 +20,7 @@ type AccountCheckPlan struct {
 	AccountUserRole                string `json:"account_user_role"`
 	WasPaidCustomer                bool   `json:"was_paid_customer"`
 	HasCustomerObject              bool   `json:"has_customer_object"`
-	SubscriptionExpiresAtTimestamp int    `json:"subscription_expires_at_timestamp"`
+	SubscriptionExpiresAtTimestamp any    `json:"subscription_expires_at_timestamp"`
 }
 
 const (

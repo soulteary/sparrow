@@ -69,7 +69,7 @@ func AccountCheck() datatypes.AccountCheck {
 			WasPaidCustomer:                true,
 			AccountUserRole:                "account-owner",
 			SubscriptionPlan:               "chatgptplusplan", // or: "chatgptplusfreeplan"
-			SubscriptionExpiresAtTimestamp: 199199199199,      // or: "null"
+			SubscriptionExpiresAtTimestamp: nil,               // or: "null", 199199199199
 		},
 	}
 
