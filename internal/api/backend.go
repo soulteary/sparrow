@@ -19,7 +19,7 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		backendAPI.GET("/accounts/check", account.AccountCheck)
 		backendAPI.POST("/accounts/data_export", account.DataExport)
 		backendAPI.POST("/accounts/deactivate", account.Deactivate)
-		// // share
+		// share
 		// backendAPI.POST("/share/create", share.Create)
 		// backendAPI.PATCH("/share/", share.Create)
 		// model
@@ -32,14 +32,14 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		backendAPI.PATCH("/conversation/:id", conversation.UpdateConversation)
 		// backendAPI.POST("/conversation", conversation.CreateConversation(brokers))
 		backendAPI.GET("/conversations", conversations.GetConversationList)
-		// backendAPI.PATCH("/conversations", conversations.GetConversationList)
-		// // The interface submission method used in the historical version is POST, which is temporarily reserved
-		// backendAPI.POST("/conversations", conversations.GetConversationList)
+		backendAPI.PATCH("/conversations", conversations.GetConversationList)
+		// The interface submission method used in the historical version is POST, which is temporarily reserved
+		backendAPI.POST("/conversations", conversations.GetConversationList)
 		// The page configuration interface prepared for the front end
 		backendAPI.GET("/pageconfig", pageconfig.GetConfig)
-		// // AI Plugin
+		// AI Plugin
 		// backendAPI.GET("/aip/p", aip.GetAIP)
-		// // Misc
+		// Misc
 		// backendAPI.GET("/opengraph/tags", opengraph.OpengraphTag)
 	}
 }
