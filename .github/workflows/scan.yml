@@ -1,0 +1,39 @@
+name: "Security Scan"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'components/**'
+      - 'connectors/**'
+      - 'internal/**'
+      - '*.go'
+  pull_request:
+    branches:
+      - main
+  schedule:
+  - cron: '0 0 * * 0'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Security Scan
+      uses: securego/gosec@6cd9e6289db3ae9a81f9d0a4f6f7aacb4bca4410
+      with:
+        args: '-no-fail -fmt sarif -out results.sarif ./...'
+
+    - name: Temp sarif workaround
+      shell: bash
+      run: |
+        sed -i "/null/d" results.sarif
+
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: results.sarif
