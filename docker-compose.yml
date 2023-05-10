@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+
+  sparrow:
+    image: soulteary/sparrow
+    container_name: sparrow
+    restart: always
+    expose:
+      - 8091
+    environment:
+      APP_PORT: 8091
+      WEB_CLIENT_HOSTNAME: "https://your-domian"
+      RESPONSE_SPEED: 1
+      ENABLE_HISTORY_LIST: true
+      ENABLE_I18N: true
+      ENABLE_DATA_CONTROL: true
+      ENABLE_MODEL_SWITCH: true
+      ENABLE_PAID_SUBSCRIPTION: true
+      ENABLE_PLUGIN: true
+      ENABLE_OPENAI_OFFICIAL_MODEL: true
+      ENABLE_OPENAI_ONLY_3_5: false
+      # ENABLE_OPENAI_API: true
+      # OPENAI_API_KEY: "sk-abcdefg"
+      # OPENAI_API_PROXY_ENABLE: true
+      # OPENAI_API_PROXY_ADDR: "http://127.0.0.1:1234"
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "10m"
+
+# use your network as you like
+#     networks:
+#       - traefik
+
+# networks:
+#   traefik:
+#     external: true
