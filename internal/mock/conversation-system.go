@@ -12,9 +12,9 @@ func createSystemConversation(createTime int64) (conversation datatypes.Conversa
 
 	var message datatypes.ConversationMessage
 	message.ID = conversation.ID
-	message.Author = createMessageUser("system")
+	message.Author = CreateMessageUser("system")
 	message.CreateTime = float64(createTime)
-	message.Content = createMessageContent("text", "")
+	message.Content = CreateMessageContent("text", "")
 	message.Metadata = createEmptyMessageMeta()
 
 	message.EndTurn = true
@@ -32,7 +32,7 @@ func createPluginSystemConversation(createTime int64, namespace string) (convers
 
 	var message datatypes.ConversationMessage
 	message.ID = conversation.ID
-	message.Author = createMessageUser("system")
+	message.Author = CreateMessageUser("system")
 	message.CreateTime = float64(createTime)
 	message.Content = createPluginSystemMessageContent(namespace)
 	message.Metadata = createEmptyMessageMeta()

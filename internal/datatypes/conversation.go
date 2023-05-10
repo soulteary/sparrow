@@ -29,13 +29,26 @@ type ConversationHistory struct {
 type ConversationMessage struct {
 	ID         string  `json:"id"`
 	Author     any     `json:"author"`
-	CreateTime float64 `json:"create_time"`
+	CreateTime float64 `json:"create_time,omitempty"`
 	UpdateTime float64 `json:"update_time,omitempty"`
 	Content    any     `json:"content"`
-	EndTurn    bool    `json:"end_turn,omitempty"`
+	EndTurn    any     `json:"end_turn,omitempty"`
 	Weight     float64 `json:"weight"`
 	Metadata   any     `json:"metadata"`
-	Recipient  string  `json:"recipient"`
+	Recipient  string  `json:"recipient,omitempty"`
+}
+
+// update date to official api, 2023.03.02
+type PostConversationMessage struct {
+	ID         string                `json:"id"`
+	Author     any                   `json:"author"`
+	CreateTime float64               `json:"create_time"`
+	UpdateTime float64               `json:"update_time,omitempty"`
+	Content    GeneralMessageContent `json:"content"`
+	EndTurn    bool                  `json:"end_turn,omitempty"`
+	Weight     float64               `json:"weight"`
+	Metadata   any                   `json:"metadata"`
+	Recipient  string                `json:"recipient"`
 }
 
 type GeneralMessageAuthor struct {
@@ -83,10 +96,42 @@ type PluginConversationMessageMeta struct {
 	Timestamp string `json:"timestamp_"`
 }
 
+type ConversationMessageGeneratedMetaBody struct {
+	MessageType string `json:"message_type"`
+	ModelSlug   string `json:"model_slug"`
+}
+
 type ConversationMessageMetaTS struct {
 	Timestamp string `json:"timestamp,omitempty"`
 }
 
 type UpdateConversationResponse struct {
 	Success bool `json:"success"`
+}
+
+// update date to official api, 2023.03.02
+type Conversation struct {
+	Action                     string                    `json:"action"`
+	Messages                   []PostConversationMessage `json:"messages"`
+	ConversationID             string                    `json:"conversation_id,omitempty"`
+	ParentMessageID            string                    `json:"parent_message_id"`
+	Model                      string                    `json:"model"`
+	TimezoneOffsetMin          int                       `json:"timezone_offset_min"`
+	HistoryAndTrainingDisabled bool                      `json:"history_and_training_disabled"`
+}
+
+type ConversationMessageGenerated struct {
+	Message        ConversationMessage `json:"message"`
+	ConversationID string              `json:"conversation_id"`
+	Error          any                 `json:"error"`
+}
+
+type ConversationMessageGeneratedMessageMetaType struct {
+	Type string `json:"type"`
+}
+
+type ConversationMessageGeneratedMessageMeta struct {
+	MessageType   string                                      `json:"message_type"`
+	ModelSlug     string                                      `json:"model_slug"`
+	FinishDetails ConversationMessageGeneratedMessageMetaType `json:"finish_details"`
 }

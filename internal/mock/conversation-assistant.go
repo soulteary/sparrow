@@ -12,9 +12,9 @@ func createAssistantMessage(createTime int64, input string) (conversation dataty
 
 	var message datatypes.ConversationMessage
 	message.ID = conversation.ID
-	message.Author = createMessageUser("assistant")
+	message.Author = CreateMessageUser("assistant")
 	message.CreateTime = float64(createTime)
-	message.Content = createMessageContent("text", input)
+	message.Content = CreateMessageContent("text", input)
 	message.Metadata = createModelMessageMeta("text-davinci-002-render-sha", "absolute")
 
 	message.EndTurn = true
@@ -32,9 +32,9 @@ func createPluginAssistantMessage(createTime int64, input string, isEnd bool, re
 
 	var message datatypes.ConversationMessage
 	message.ID = conversation.ID
-	message.Author = createMessageUser("assistant")
+	message.Author = CreateMessageUser("assistant")
 	message.CreateTime = float64(createTime)
-	message.Content = createMessageContent("text", input)
+	message.Content = CreateMessageContent("text", input)
 	message.Metadata = createPluginModelMessageMeta("text-davinci-002-plugins", "absolute", stopWord)
 
 	message.EndTurn = isEnd

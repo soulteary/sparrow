@@ -21,7 +21,7 @@ func createMapMessage(id string) datatypes.ConversationHistory {
 	return message
 }
 
-func createMessageUser(user string) (author datatypes.GeneralMessageAuthor) {
+func CreateMessageUser(user string) (author datatypes.GeneralMessageAuthor) {
 	author.Role = user
 	author.Metadata = struct{}{}
 	return author
@@ -34,7 +34,7 @@ func createPluginMessageUser(user string, namespace string) (author datatypes.Pl
 	return author
 }
 
-func createMessageContent(contentType string, input string) (content datatypes.GeneralMessageContent) {
+func CreateMessageContent(contentType string, input string) (content datatypes.GeneralMessageContent) {
 	content.ContentType = contentType
 	content.Parts = []string{input}
 	return content

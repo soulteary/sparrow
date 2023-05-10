@@ -15,7 +15,7 @@ func createPluginToolMessage(createTime int64, input string, namespace string) (
 	message.Author = createPluginMessageUser("tool", namespace)
 	message.CreateTime = float64(createTime)
 	message.UpdateTime = float64(createTime + 1)
-	message.Content = createMessageContent("text", input)
+	message.Content = CreateMessageContent("text", input)
 	message.Metadata = createPluginToolMessageMeta("text-davinci-002-plugins", "absolute", namespace)
 
 	message.EndTurn = true // TODO double check

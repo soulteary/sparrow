@@ -12,9 +12,9 @@ func createUserMessage(createTime int64, input string) (conversation datatypes.C
 
 	var message datatypes.ConversationMessage
 	message.ID = conversation.ID
-	message.Author = createMessageUser("user")
+	message.Author = CreateMessageUser("user")
 	message.CreateTime = float64(createTime)
-	message.Content = createMessageContent("text", input)
+	message.Content = CreateMessageContent("text", input)
 
 	message.Metadata = createTimestampMessageMeta("absolute")
 	// message.EndTurn = true

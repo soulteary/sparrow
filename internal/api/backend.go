@@ -32,7 +32,7 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		backendAPI.POST("/conversation/gen_title/:uuid", gentitle.GetTitle)
 		backendAPI.GET("/conversation/:id", conversation.GetConversationById)
 		backendAPI.PATCH("/conversation/:id", conversation.UpdateConversation)
-		// backendAPI.POST("/conversation", conversation.CreateConversation(brokers))
+		backendAPI.POST("/conversation", conversation.CreateConversation(brokerPool))
 		backendAPI.GET("/conversations", conversations.GetConversationList)
 		backendAPI.PATCH("/conversations", conversations.GetConversationList)
 		// The interface submission method used in the historical version is POST, which is temporarily reserved
