@@ -16,6 +16,12 @@ on:
   schedule:
   - cron: '0 0 * * 0'
 
+permissions:
+  id-token: write
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   scan:
     runs-on: ubuntu-latest
