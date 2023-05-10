@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	"github.com/soulteary/sparrow/internal/api/account"
+	"github.com/soulteary/sparrow/internal/api/models"
 )
 
 func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
@@ -16,8 +17,8 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		// // share
 		// backendAPI.POST("/share/create", share.Create)
 		// backendAPI.PATCH("/share/", share.Create)
-		// // model
-		// backendAPI.GET("/models", models.GetModels)
+		// model
+		backendAPI.GET("/models", models.GetModels)
 		// // conversation
 		// backendAPI.POST("/moderations", moderations.GetModerations)
 		// backendAPI.POST("/conversation/gen_title/", gentitle.GetTitle)

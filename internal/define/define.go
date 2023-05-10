@@ -20,7 +20,10 @@ var (
 	ENABLE_PAID_SUBSCRIPTION = GetBool("ENABLE_PAID_SUBSCRIPTION", false) // Enable the subscription
 	ENABLE_PLUGIN            = GetBool("ENABLE_PLUGIN", false)            // Enable the plugin
 
-	ENABLE_OPENAI_API       = GetBool("ENABLE_35_API", false)                                     // Enable OpenAI 3.5 API
+	ENABLE_OPENAI_OFFICIAL_MODEL = GetBool("ENABLE_OPENAI_OFFICIAL_MODEL", true) // Enable the official model
+	ENABLE_OPENAI_ONLY_3_5       = GetBool("ENABLE_OPENAI_ONLY_3_5", true)       // Only Enable the 3.5 model
+
+	ENABLE_OPENAI_API       = GetBool("ENABLE_OPENAI_API", false)                                 // Enable OpenAI 3.5 API
 	OPENAI_API_KEY          = strings.TrimSpace(os.Getenv("OPENAI_API_KEY"))                      // OpenAI API Key
 	ENABLE_OPENAI_API_PROXY = GetBool("OPENAI_API_PROXY_ENABLE", false)                           // enable OpenAI API Proxy
 	OPENAI_API_PROXY_ADDR   = GetHostName("OPENAI_API_PROXY_ADDR", DEFAULT_OPENAI_API_PROXY_ADDR) // OpenAI API Proxy Address
