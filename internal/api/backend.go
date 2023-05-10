@@ -9,8 +9,8 @@ import (
 func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 	backendAPI := r.Group("/backend-api")
 	{
-		// // account
-		// backendAPI.GET("/accounts/check", account.AccountCheck)
+		// account
+		backendAPI.GET("/accounts/check", account.AccountCheck)
 		backendAPI.POST("/accounts/data_export", account.DataExport)
 		backendAPI.POST("/accounts/deactivate", account.Deactivate)
 		// // share
