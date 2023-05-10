@@ -1,7 +1,6 @@
 package conversation
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 	"time"
@@ -84,13 +83,14 @@ func MakeResponseMessage(text string, conversationID string, newMessageID string
 }
 
 func MakeStreamingMessage(text string, conversationID string) (ret []string) {
-	var response []string
 	newConversationID := define.GenerateUUID()
 
-	message, _ := MakeJSON(MakeResponseMessage("", conversationID, newConversationID, false))
+	var messages []datatypes.ConversationMessageGenerated
+
 	// Simulate the feeling of waiting for a response
+	message := MakeResponseMessage("", conversationID, newConversationID, false)
 	for i := 0; i < 3; i++ {
-		response = append(response, message)
+		messages = append(messages, message)
 	}
 
 	s := ""
@@ -102,14 +102,12 @@ func MakeStreamingMessage(text string, conversationID string) (ret []string) {
 		for _, match := range matches {
 			if ContainMarkdownImage(match) || ContainMarkdownLink(match) {
 				s += match
-				message, _ := MakeJSON(MakeResponseMessage(s, conversationID, newConversationID, false))
-				response = append(response, message)
+				messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, false))
 			} else {
 				context := strings.Split(match, "")
 				for i := 0; i < len(context); i++ {
 					s += context[i]
-					message, _ := MakeJSON(MakeResponseMessage(s, conversationID, newConversationID, false))
-					response = append(response, message)
+					messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, false))
 				}
 			}
 		}
@@ -117,22 +115,18 @@ func MakeStreamingMessage(text string, conversationID string) (ret []string) {
 		// before last line
 		if lineId != lastLineId {
 			s += "\n"
-			message, _ := MakeJSON(MakeResponseMessage(s, conversationID, newConversationID, false))
-			response = append(response, message)
+			messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, false))
 		} else {
-			message, _ := MakeJSON(MakeResponseMessage(s, conversationID, newConversationID, true))
-			response = append(response, message)
-			response = append(response, `[DONE]`)
-			fmt.Println(len(response))
+			messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, true))
 		}
 	}
 
-	for _, line := range response {
-		if !strings.Contains(line, `[DONE]`) {
-			ret = append(ret, " "+line)
-		} else {
-			ret = append(ret, " "+line)
+	for _, message := range messages {
+		text, err := MakeJSON(message)
+		if err == nil {
+			ret = append(ret, " "+text)
 		}
 	}
+	ret = append(ret, "[DONE]")
 	return ret
 }
