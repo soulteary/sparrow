@@ -9,21 +9,34 @@ services:
     expose:
       - 8091
     environment:
+      # service port
       APP_PORT: 8091
+      # the ChatGPT client domain
       WEB_CLIENT_HOSTNAME: "https://your-domian"
+      # response generate speed, 1x ~ 99x
       RESPONSE_SPEED: 1
+      # Enable history list
       ENABLE_HISTORY_LIST: true
+      # Enable i18n
       ENABLE_I18N: true
+      # Enable the data control
       ENABLE_DATA_CONTROL: true
+      # Enable the model switch
       ENABLE_MODEL_SWITCH: true
-      ENABLE_PAID_SUBSCRIPTION: true
+      # Enable the plugin
       ENABLE_PLUGIN: true
+      # Enable the official model
       ENABLE_OPENAI_OFFICIAL_MODEL: true
+      # Only Enable the 3.5 model
       ENABLE_OPENAI_ONLY_3_5: false
-      # ENABLE_OPENAI_API: true
-      # OPENAI_API_KEY: "sk-abcdefg"
-      # OPENAI_API_PROXY_ENABLE: true
-      # OPENAI_API_PROXY_ADDR: "http://127.0.0.1:1234"
+      # Enable OpenAI 3.5 API
+      ENABLE_OPENAI_API: true
+      # OpenAI API Key
+      OPENAI_API_KEY: "sk-abcdefg"
+      # Enable OpenAI API Proxy
+      OPENAI_API_PROXY_ENABLE: false
+      # OpenAI API Proxy Address, eg: `"http://127.0.0.1:1234"` or ""
+      OPENAI_API_PROXY_ADDR: ""
     logging:
         driver: "json-file"
         options:
