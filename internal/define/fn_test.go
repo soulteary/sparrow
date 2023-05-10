@@ -247,3 +247,9 @@ func TestGenerateRandomString(t *testing.T) {
 		})
 	}
 }
+
+func TestGenerateUUID(t *testing.T) {
+	if define.GenerateUUID() == "" {
+		t.Fatal("GenerateUUID() = \"\"; expected UUID")
+	}
+}

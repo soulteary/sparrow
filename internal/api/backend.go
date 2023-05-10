@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	"github.com/soulteary/sparrow/internal/api/account"
+	"github.com/soulteary/sparrow/internal/api/conversations"
 	"github.com/soulteary/sparrow/internal/api/models"
 )
 
@@ -19,14 +20,14 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		// backendAPI.PATCH("/share/", share.Create)
 		// model
 		backendAPI.GET("/models", models.GetModels)
-		// // conversation
+		// conversation
 		// backendAPI.POST("/moderations", moderations.GetModerations)
 		// backendAPI.POST("/conversation/gen_title/", gentitle.GetTitle)
 		// backendAPI.POST("/conversation/gen_title/:uuid", gentitle.GetTitle)
 		// backendAPI.GET("/conversation/:id", conversation.GetConversationById)
 		// backendAPI.PATCH("/conversation/:id", conversation.UpdateConversation)
 		// backendAPI.POST("/conversation", conversation.CreateConversation(brokers))
-		// backendAPI.GET("/conversations", conversations.GetConversationList)
+		backendAPI.GET("/conversations", conversations.GetConversationList)
 		// backendAPI.PATCH("/conversations", conversations.GetConversationList)
 		// // The interface submission method used in the historical version is POST, which is temporarily reserved
 		// backendAPI.POST("/conversations", conversations.GetConversationList)

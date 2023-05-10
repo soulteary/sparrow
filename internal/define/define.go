@@ -13,7 +13,7 @@ var (
 	APP_PORT            = GetPortString("APP_PORT", DEFAULT_APP_PORT)
 	WEB_CLIENT_HOSTNAME = GetHostName("WEB_CLIENT_HOSTNAME", DEFAULT_WEB_CLIENT_HOSTNAME)
 
-	ENABLE_HISTORY_LIST      = GetBool("ENABLE_HISTORY_LIST", false)      // Enable history list
+	ENABLE_HISTORY_LIST      = GetBool("ENABLE_HISTORY_LIST", true)       // Enable history list
 	ENABLE_I18N              = GetBool("ENABLE_I18N", true)               // Enable i18n
 	ENABLE_DATA_CONTROL      = GetBool("ENABLE_DATA_CONTROL", false)      // Enable the data control
 	ENABLE_MODEL_SWITCH      = GetBool("ENABLE_MODEL_SWITCH", true)       // Enable the model switch

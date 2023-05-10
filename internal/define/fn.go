@@ -8,6 +8,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
+	UUID "github.com/google/uuid"
 )
 
 func GetBool(envKey string, def bool) bool {
@@ -59,4 +61,8 @@ func GenerateRandomString(length int) string {
 		result += string(letters[n.Int64()])
 	}
 	return result
+}
+
+func GenerateUUID() string {
+	return UUID.New().String()
 }
