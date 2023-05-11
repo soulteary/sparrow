@@ -20,6 +20,7 @@ var (
 func StreamBuilder(parentMessageID string, conversationID string, modelSlug string, broker *eb.Broker, input string, mode StreamMessageMode) bool {
 	messageID, modelSlug := GetBuilderParams(modelSlug)
 	var sequences []string
+	var quickMode bool
 
 	switch modelSlug {
 	case datatypes.MODEL_OPENAI_API_3_5.Slug:
@@ -29,21 +30,23 @@ func StreamBuilder(parentMessageID string, conversationID string, modelSlug stri
 	case datatypes.MODEL_GPT4.Slug:
 		if define.ENABLE_OPENAI_API {
 			sequences = MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, conversationID, messageID, mode)
+			quickMode = false
 		}
 	case datatypes.MODEL_MIDJOURNEY.Slug:
 		if define.ENABLE_MIDJOURNEY {
 			sequences = MakeStreamingMessage(input, modelSlug, conversationID, messageID, mode)
+			quickMode = true
 		}
 		// case datatypes.MODEL_NO_MODELS.Slug:
 		// default:
 	}
 
 	if len(sequences) > 0 {
-		return MakeStreamingResponse(parentMessageID, broker, sequences)
+		return MakeStreamingResponse(parentMessageID, broker, sequences, quickMode)
 	}
 
 	sequences = MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", modelSlug, conversationID, messageID, mode)
-	return MakeStreamingResponse(parentMessageID, broker, sequences)
+	return MakeStreamingResponse(parentMessageID, broker, sequences, true)
 }
 
 func GetBuilderParams(modelSlug string) (string, string) {
@@ -54,14 +57,14 @@ func GetBuilderParams(modelSlug string) (string, string) {
 	return messageID, modelSlug
 }
 
-func MakeStreamingResponse(parentMessageID string, broker *eb.Broker, sequences []string) bool {
+func MakeStreamingResponse(parentMessageID string, broker *eb.Broker, sequences []string, quickMode bool) bool {
 	count := len(sequences)
 	if count == 0 {
 		return false
 	}
 
 	simulateDelay := 800 / define.RESPONSE_SPEED
-	if define.DEV_MODE {
+	if define.DEV_MODE || quickMode {
 		simulateDelay = 10
 	}
 
@@ -77,11 +80,15 @@ func MakeStreamingResponse(parentMessageID string, broker *eb.Broker, sequences 
 				Payload: sequence,
 			}
 
-			if id < lastThreeBefore {
-				time.Sleep(time.Millisecond * time.Duration(RandomResponseTime(40, 120)))
+			if !quickMode {
+				if id < lastThreeBefore {
+					time.Sleep(time.Millisecond * time.Duration(RandomResponseTime(40, 120)))
+				} else {
+					// Acceleration end output
+					time.Sleep(time.Millisecond * time.Duration(50))
+				}
 			} else {
-				// Acceleration end output
-				time.Sleep(time.Millisecond * time.Duration(50))
+				time.Sleep(time.Millisecond * time.Duration(10))
 			}
 		}
 	}()
