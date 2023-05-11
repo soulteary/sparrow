@@ -1,5 +1,7 @@
 # Sparrow / 麻雀
 
+[![CodeQL](https://github.com/soulteary/sparrow/actions/workflows/codeql.yml/badge.svg)](https://github.com/soulteary/sparrow/actions/workflows/codeql.yml) [![Security Scan](https://github.com/soulteary/sparrow/actions/workflows/scan.yml/badge.svg)](https://github.com/soulteary/sparrow/actions/workflows/scan.yml) [![Release](https://github.com/soulteary/sparrow/actions/workflows/release.yaml/badge.svg)](https://github.com/soulteary/sparrow/actions/workflows/release.yaml)
+
 <img src=".github/logo.png" width="30%">
 
 ChatGPT Style client-compatible Backend Server, open source implementation.
