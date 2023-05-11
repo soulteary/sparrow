@@ -58,7 +58,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 
 		switch userModel {
 		default:
-			streamGenerated := sr.StreamBuilder(data, userModel, broker, userPrompt)
+			streamGenerated := sr.StreamBuilder(data, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				c.Request.Header.Set("x-message-id", data.ParentMessageID)
 				broker.Serve(c)

@@ -39,7 +39,7 @@ func MakeResponseMessage(text string, modelSlug, conversationID string, messageI
 	return data
 }
 
-func MakeStreamingMessage(text string, modelSlug string, conversationID string, messageID string) (ret []string) {
+func MakeStreamingMessage(text string, modelSlug string, conversationID string, messageID string, mode StreamMessageMode) (ret []string) {
 	var messages []datatypes.ConversationMessageGenerated
 
 	// Simulate the feeling of waiting for a response
@@ -72,7 +72,9 @@ func MakeStreamingMessage(text string, modelSlug string, conversationID string, 
 			s += "\n"
 			messages = append(messages, MakeResponseMessage(s, modelSlug, conversationID, messageID, false))
 		} else {
-			messages = append(messages, MakeResponseMessage(s, modelSlug, conversationID, messageID, true))
+			if mode == MSG_STATUS_AUTO_MODE || mode == MSG_STATUS_DONE {
+				messages = append(messages, MakeResponseMessage(s, modelSlug, conversationID, messageID, true))
+			}
 		}
 	}
 
@@ -82,6 +84,8 @@ func MakeStreamingMessage(text string, modelSlug string, conversationID string, 
 			ret = append(ret, " "+text)
 		}
 	}
-	ret = append(ret, "[DONE]")
+	if mode == MSG_STATUS_AUTO_MODE || mode == MSG_STATUS_DONE {
+		ret = append(ret, "[DONE]")
+	}
 	return ret
 }

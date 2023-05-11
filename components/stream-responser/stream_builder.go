@@ -9,18 +9,22 @@ import (
 	"github.com/soulteary/sparrow/internal/define"
 )
 
-func StreamBuilder(data datatypes.Conversation, modelSlug string, broker *eb.Broker, input string) bool {
+type StreamMessageMode int
+
+var (
+	MSG_STATUS_AUTO_MODE StreamMessageMode = 0
+	MSG_STATUS_CONTINUE  StreamMessageMode = 1
+	MSG_STATUS_DONE      StreamMessageMode = 2
+)
+
+func StreamBuilder(data datatypes.Conversation, modelSlug string, broker *eb.Broker, input string, mode StreamMessageMode) bool {
 	messageID, modelSlug := GetBuilderParams(modelSlug)
 	if define.ENABLE_OPENAI_API {
-		sequences := MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, data.ConversationID, messageID)
+		sequences := MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, data.ConversationID, messageID, mode)
 		return MakeStreamingResponse(data, broker, sequences)
 	}
-	sequences := MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", modelSlug, data.ConversationID, messageID)
+	sequences := MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", modelSlug, data.ConversationID, messageID, mode)
 	return MakeStreamingResponse(data, broker, sequences)
-}
-
-func StreamBuilderManual(data datatypes.Conversation, modelSlug string, broker *eb.Broker, input string, markAsEnd bool) bool {
-	return false
 }
 
 func GetBuilderParams(modelSlug string) (string, string) {
