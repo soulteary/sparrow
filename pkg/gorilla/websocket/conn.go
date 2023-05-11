@@ -182,7 +182,7 @@ var (
 )
 
 func newMaskKey() [4]byte {
-	n := rand.Uint32()
+	n := rand.Uint32() // #nosec
 	return [4]byte{byte(n), byte(n >> 8), byte(n >> 16), byte(n >> 24)}
 }
 

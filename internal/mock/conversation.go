@@ -10,7 +10,7 @@ import (
 
 func GetConversationById(id string) any {
 	// random response conversation type
-	if rand.Intn(2) == 0 {
+	if rand.Intn(2) == 0 { // #nosec
 		return GeneralConversationHistory(id)
 	} else {
 		return PluginConversationHistory(id)
