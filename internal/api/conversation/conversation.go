@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
+	sr "github.com/soulteary/sparrow/components/stream-responser"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
 	"github.com/soulteary/sparrow/internal/mock"
@@ -27,7 +28,7 @@ func UpdateConversation(c *gin.Context) {
 
 func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		_, data, err := ParseConversationBody(c.Request.Body)
+		_, data, err := sr.ParseConversationBody(c.Request.Body)
 		if err != nil {
 			c.Data(http.StatusTeapot, "application/json; charset=utf-8", []byte(fmt.Sprintf("%v", err)))
 			return
@@ -57,7 +58,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 
 		switch userModel {
 		default:
-			streamGenerated := StreamBuilder(data, broker, userPrompt)
+			streamGenerated := sr.StreamBuilder(data, broker, userPrompt)
 			if streamGenerated {
 				c.Request.Header.Set("x-message-id", data.ParentMessageID)
 				broker.Serve(c)
