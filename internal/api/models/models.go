@@ -10,9 +10,15 @@ import (
 
 func GetModels(c *gin.Context) {
 	var modelList []datatypes.ModelListItem
-	// if define.ENABLE_MIDJOURNEY {
-	// 	modelList = append(modelList, GetMidJourneyModels()...)
-	// }
+
+	if define.ENABLE_MIDJOURNEY {
+		modelList = append(modelList, GetMidJourneyModel()...)
+		if define.ENABLE_ONLY_MIDJOURNEY {
+			c.JSON(http.StatusOK, datatypes.Models{Models: modelList})
+			return
+		}
+	}
+
 	// modelList = append(modelList, GetCustomModels()...)
 
 	if define.ENABLE_OPENAI_API {

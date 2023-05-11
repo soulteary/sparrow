@@ -28,4 +28,9 @@ var (
 	OPENAI_API_KEY          = strings.TrimSpace(os.Getenv("OPENAI_API_KEY"))                      // OpenAI API Key
 	ENABLE_OPENAI_API_PROXY = GetBool("OPENAI_API_PROXY_ENABLE", false)                           // Enable OpenAI API Proxy
 	OPENAI_API_PROXY_ADDR   = GetHostName("OPENAI_API_PROXY_ADDR", DEFAULT_OPENAI_API_PROXY_ADDR) // OpenAI API Proxy Address
+
+	ENABLE_MIDJOURNEY      = GetBool("ENABLE_MIDJOURNEY", true)                             // Enable Midjourney
+	ENABLE_ONLY_MIDJOURNEY = GetBool("ENABLE_MIDJOURNEY_ONLY", false)                       // Enable Midjourney only
+	MODJOURNEY_API_SECRET  = "secret"                                                       // Midjourney API Secret
+	MIDJOURNEY_API_ADDR    = GetHostName("MIDJOURNEY_API_URL", DEFAULT_MIDJOURNEY_API_ADDR) // Midjourney API URL
 )
