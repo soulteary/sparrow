@@ -55,7 +55,7 @@ func (broker *Broker) Listen() {
 	}
 }
 
-func (broker *Broker) Serve(c *gin.Context) {
+func (broker *Broker) Serve(c *gin.Context, messageChan EventChan) {
 	messageId := c.Request.Header.Get("x-message-id")
 	log.Println("Requested topic:", messageId)
 
@@ -66,7 +66,6 @@ func (broker *Broker) Serve(c *gin.Context) {
 	c.Header("Transfer-Encoding", "chunked")
 	c.Status(200)
 
-	messageChan := make(EventChan)
 	broker.Connect <- messageChan
 	defer func() {
 		broker.Disconnect <- messageChan
@@ -82,6 +81,7 @@ func (broker *Broker) Serve(c *gin.Context) {
 			broker.Disconnect <- messageChan
 			c.Abort()
 			c.Writer.CloseNotify()
+			FreePool(broker.ID)
 		} else {
 			c.SSEvent("", event.Payload)
 		}

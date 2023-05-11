@@ -95,3 +95,16 @@ var MODEL_NO_MODELS = ModelListItem{
 		Conciseness: []int{0, 5},
 	},
 }
+
+var MODEL_MIDJOURNEY = ModelListItem{
+	Slug:        "mid-journey",
+	MaxTokens:   1000,
+	Title:       "Mid Journey",
+	Description: "The drawing model with the best effect at present.\n\nAn artificial intelligence program developed by the research laboratory of the same name, which can generate images based on text, will enter the public testing stage on July 12, 2022. Users can use Discord's robot instructions Operational.\n\nThe research lab is led by David Holz, founder of Leap Motion.",
+	Tags:        []string{},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{4, 5},
+		Speed:       []int{2, 5},
+		Conciseness: []int{3, 5},
+	},
+}

@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	sr "github.com/soulteary/sparrow/components/stream-responser"
+	midjourney "github.com/soulteary/sparrow/connectors/mid-journey"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
 	"github.com/soulteary/sparrow/internal/mock"
@@ -56,12 +57,18 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			fmt.Println()
 		}
 
+		messageChan := make(eb.EventChan)
+		c.Request.Header.Set("x-message-id", data.ParentMessageID)
+
 		switch userModel {
+		case "mid-journey":
+			message := []byte(fmt.Sprintf("%s\n%s", data.ParentMessageID, userPrompt))
+			midjourney.PostMessage(midjourney.GetConn(), message)
+			broker.Serve(c, messageChan)
 		default:
-			streamGenerated := sr.StreamBuilder(data, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			streamGenerated := sr.StreamBuilder(data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
-				c.Request.Header.Set("x-message-id", data.ParentMessageID)
-				broker.Serve(c)
+				broker.Serve(c, messageChan)
 			}
 		}
 	}

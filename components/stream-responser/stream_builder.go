@@ -17,14 +17,33 @@ var (
 	MSG_STATUS_DONE      StreamMessageMode = 2
 )
 
-func StreamBuilder(data datatypes.Conversation, modelSlug string, broker *eb.Broker, input string, mode StreamMessageMode) bool {
+func StreamBuilder(parentMessageID string, conversationID string, modelSlug string, broker *eb.Broker, input string, mode StreamMessageMode) bool {
 	messageID, modelSlug := GetBuilderParams(modelSlug)
-	if define.ENABLE_OPENAI_API {
-		sequences := MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, data.ConversationID, messageID, mode)
-		return MakeStreamingResponse(data, broker, sequences)
+	var sequences []string
+
+	switch modelSlug {
+	case datatypes.MODEL_OPENAI_API_3_5.Slug:
+	case datatypes.MODEL_TEXT_DAVINCI_002_PLUGINS.Slug:
+	case datatypes.MODEL_TEXT_DAVINCI_002_RENDER_PAID.Slug:
+	case datatypes.MODEL_TEXT_DAVINCI_002_RENDER_SHA.Slug:
+	case datatypes.MODEL_GPT4.Slug:
+		if define.ENABLE_OPENAI_API {
+			sequences = MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, conversationID, messageID, mode)
+		}
+	case datatypes.MODEL_MIDJOURNEY.Slug:
+		if define.ENABLE_MIDJOURNEY {
+			sequences = MakeStreamingMessage(input, modelSlug, conversationID, messageID, mode)
+		}
+		// case datatypes.MODEL_NO_MODELS.Slug:
+		// default:
 	}
-	sequences := MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", modelSlug, data.ConversationID, messageID, mode)
-	return MakeStreamingResponse(data, broker, sequences)
+
+	if len(sequences) > 0 {
+		return MakeStreamingResponse(parentMessageID, broker, sequences)
+	}
+
+	sequences = MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", modelSlug, conversationID, messageID, mode)
+	return MakeStreamingResponse(parentMessageID, broker, sequences)
 }
 
 func GetBuilderParams(modelSlug string) (string, string) {
@@ -35,7 +54,7 @@ func GetBuilderParams(modelSlug string) (string, string) {
 	return messageID, modelSlug
 }
 
-func MakeStreamingResponse(data datatypes.Conversation, broker *eb.Broker, sequences []string) bool {
+func MakeStreamingResponse(parentMessageID string, broker *eb.Broker, sequences []string) bool {
 	count := len(sequences)
 	if count == 0 {
 		return false
@@ -54,7 +73,7 @@ func MakeStreamingResponse(data datatypes.Conversation, broker *eb.Broker, seque
 			}
 
 			broker.Event <- eb.Event{
-				Name:    data.ParentMessageID,
+				Name:    parentMessageID,
 				Payload: sequence,
 			}
 
