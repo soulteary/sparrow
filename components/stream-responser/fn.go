@@ -1,11 +1,9 @@
 package StreamResponser
 
 import (
-	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"io"
-	"math/big"
 	"regexp"
 
 	"github.com/soulteary/sparrow/internal/datatypes"
@@ -30,20 +28,6 @@ func PromptSerialization(buf []byte) (datatypes.Conversation, error) {
 	return conversation, nil
 }
 
-func GetRandomNumber(min, max int) int {
-	const fallback = 50
-	n, err := rand.Int(rand.Reader, big.NewInt(int64(max)))
-	if err != nil {
-		return fallback
-	}
-
-	num := n.Int64()
-	if num > int64(^uint(0)>>1) {
-		return fallback
-	}
-	return int(num) + min
-}
-
 func RandomResponseTime(min, max int) int {
 	const limit = 10
 	if define.DEV_MODE {
@@ -58,10 +42,10 @@ func RandomResponseTime(min, max int) int {
 	}
 
 	var i int
-	i = GetRandomNumber(min, max)
+	i = define.GetRandomNumber(min, max)
 	if i >= (int(float64(max) * 0.9)) {
 		// 10% chance to get a longer delay, If it was originally a long delay
-		i = GetRandomNumber(300, 500)
+		i = define.GetRandomNumber(300, 500)
 	}
 
 	if define.RESPONSE_SPEED <= 0 {

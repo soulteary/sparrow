@@ -91,3 +91,17 @@ func GetMidJourneySecret(envKey string, def string) string {
 	}
 	return def
 }
+
+func GetRandomNumber(min, max int) int {
+	const fallback = 50
+	n, err := rand.Int(rand.Reader, big.NewInt(int64(max)))
+	if err != nil {
+		return fallback
+	}
+
+	num := n.Int64()
+	if num > int64(^uint(0)>>1) {
+		return fallback
+	}
+	return int(num) + min
+}

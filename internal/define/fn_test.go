@@ -289,3 +289,12 @@ func TestGetMidJourneySecret(t *testing.T) {
 		})
 	}
 }
+
+func TestGetRandomNumber(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		randomNumber := define.GetRandomNumber(1, 100)
+		if randomNumber < 1 || randomNumber > 100 {
+			t.Errorf("GetRandomNumber(%d, %d) = %d; want a number between 1 and 100", 1, 100, randomNumber)
+		}
+	}
+}

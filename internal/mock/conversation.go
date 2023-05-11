@@ -1,7 +1,6 @@
 package mock
 
 import (
-	"math/rand"
 	"time"
 
 	"github.com/soulteary/sparrow/internal/datatypes"
@@ -10,7 +9,7 @@ import (
 
 func GetConversationById(id string) any {
 	// random response conversation type
-	if rand.Intn(2) == 0 { // #nosec
+	if define.GetRandomNumber(1, 2) == 1 {
 		return GeneralConversationHistory(id)
 	} else {
 		return PluginConversationHistory(id)
