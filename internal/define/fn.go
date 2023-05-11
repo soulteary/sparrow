@@ -83,3 +83,11 @@ func GetGenerateSpeed(envKey string, def int) int {
 	}
 	return def
 }
+
+func GetMidJourneySecret(envKey string, def string) string {
+	env := strings.ToLower(strings.TrimSpace(os.Getenv(envKey)))
+	if env != "" {
+		return env
+	}
+	return def
+}

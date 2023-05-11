@@ -253,3 +253,39 @@ func TestGenerateUUID(t *testing.T) {
 		t.Fatal("GenerateUUID() = \"\"; expected UUID")
 	}
 }
+
+func TestGetMidJourneySecret(t *testing.T) {
+	tests := []struct {
+		name   string
+		input  string
+		def    string
+		envKey string
+		expect string
+	}{
+		{
+			name:   "empty string",
+			envKey: "empty-key",
+			input:  "",
+			def:    "def",
+			expect: "def",
+		},
+		{
+			name:   "user input string",
+			envKey: "env-key",
+			input:  "abc",
+			def:    "def",
+			expect: "abc",
+		},
+	}
+
+	for _, test := range tests {
+		os.Setenv(test.envKey, test.input)
+		defer os.Unsetenv(test.envKey)
+		t.Run(test.name, func(t *testing.T) {
+			got := define.GetMidJourneySecret(test.envKey, test.def)
+			if got != test.expect {
+				t.Errorf("GetMidJourneySecret(%s, %s) = %s; expect %s", test.envKey, test.def, got, test.expect)
+			}
+		})
+	}
+}
