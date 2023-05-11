@@ -253,3 +253,25 @@ func TestGenerateUUID(t *testing.T) {
 		t.Fatal("GenerateUUID() = \"\"; expected UUID")
 	}
 }
+
+func TestUpdateAppFlags(t *testing.T) {
+	define.UpdateAppFlags("dev-mode", true)
+	if define.DEV_MODE != true {
+		t.Fatal(`UpdateAppFlags("dev-mode", true); expected true`)
+	}
+
+	define.UpdateAppFlags("dev-mode", false)
+	if define.DEV_MODE != false {
+		t.Fatal(`UpdateAppFlags("dev-mode", true); expected false`)
+	}
+
+	define.UpdateAppFlags("etc", false)
+	if define.DEV_MODE != false {
+		t.Fatal(`UpdateAppFlags("etc", true); expected false`)
+	}
+
+	define.UpdateAppFlags("etc", true)
+	if define.DEV_MODE != false {
+		t.Fatal(`UpdateAppFlags("etc", true); expected false`)
+	}
+}

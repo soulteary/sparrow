@@ -83,3 +83,10 @@ func GetGenerateSpeed(envKey string, def int) int {
 	}
 	return def
 }
+
+func UpdateAppFlags(flagName string, value bool) {
+	switch strings.ToLower(strings.TrimSpace(flagName)) {
+	case "dev-mode":
+		DEV_MODE = value
+	}
+}
