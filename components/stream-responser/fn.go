@@ -6,7 +6,6 @@ import (
 	"io"
 	"math/rand"
 	"regexp"
-	"time"
 
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
@@ -30,19 +29,36 @@ func PromptSerialization(buf []byte) (datatypes.Conversation, error) {
 	return conversation, nil
 }
 
-func RandomSleep() {
-	var k int
+func RandomResponseTime(min, max int) int {
+	const limit = 10
 	if define.DEV_MODE {
-		k = 10
-	} else {
-		min := 40
-		max := 120
-		k = rand.Intn(max-min+1) + min
+		return limit
 	}
-	if k >= 110 {
-		k = rand.Intn(500-300+1) + 300
+
+	const defaultMin = 40
+	const defaultMax = 120
+	if min > max || min <= 0 || max <= 0 {
+		min = defaultMin
+		max = defaultMax
 	}
-	time.Sleep(time.Millisecond * time.Duration(k/define.RESPONSE_SPEED))
+
+	var i int
+	i = rand.Intn(max-min+1) + min
+	if i >= (int(float64(max) * 0.9)) {
+		// 10% chance to get a longer delay, If it was originally a long delay
+		i = rand.Intn(500-300+1) + 300
+	}
+
+	if define.RESPONSE_SPEED <= 0 {
+		return i
+	}
+	// set speed
+	delay := i / define.RESPONSE_SPEED
+	if delay < limit {
+		return limit
+	}
+
+	return delay
 }
 
 func ContainMarkdownImage(str string) bool {

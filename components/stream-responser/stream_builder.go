@@ -38,7 +38,7 @@ func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, prompt string
 			}
 
 			if id < lastThreeBefore {
-				RandomSleep()
+				time.Sleep(time.Millisecond * time.Duration(RandomResponseTime(40, 120)))
 			} else {
 				// Acceleration end output
 				time.Sleep(time.Millisecond * time.Duration(50))
