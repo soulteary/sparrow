@@ -12,9 +12,17 @@ import (
 	"github.com/soulteary/sparrow/internal/mock"
 )
 
-func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, prompt string) bool {
-	sequences := MakeMessageSequence(data.ParentMessageID, data.ConversationID, prompt)
+func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, input string) bool {
+	var sequences []string
+	if define.ENABLE_OPENAI_API {
+		sequences = MakeStreamingMessage(OpenaiAPI.Get(input), data.ConversationID)
+		return MakeStreamingResponse(data, broker, sequences)
+	}
+	sequences = MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", data.ConversationID)
+	return MakeStreamingResponse(data, broker, sequences)
+}
 
+func MakeStreamingResponse(data datatypes.Conversation, broker *eb.Broker, sequences []string) bool {
 	count := len(sequences)
 	if count == 0 {
 		return false
@@ -46,13 +54,6 @@ func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, prompt string
 		}
 	}()
 	return true
-}
-
-func MakeMessageSequence(parentMessageID string, conversationID string, userInput string) (ret []string) {
-	if define.ENABLE_OPENAI_API {
-		return MakeStreamingMessage(OpenaiAPI.Get(userInput), conversationID)
-	}
-	return MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", conversationID)
 }
 
 func MakeResponseMessage(text string, conversationID string, newMessageID string, endTurn bool) datatypes.ConversationMessageGenerated {
