@@ -12,13 +12,17 @@ import (
 	"github.com/soulteary/sparrow/internal/mock"
 )
 
-func StreamBuilder(data datatypes.Conversation, broker *eb.Broker, input string) bool {
+func StreamBuilder(data datatypes.Conversation, modelSlug string, broker *eb.Broker, input string) bool {
 	var sequences []string
+	messageID := define.GenerateUUID()
+	if modelSlug == "" {
+		modelSlug = "text-davinci-002-render-sha"
+	}
 	if define.ENABLE_OPENAI_API {
-		sequences = MakeStreamingMessage(OpenaiAPI.Get(input), data.ConversationID)
+		sequences = MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, data.ConversationID, messageID)
 		return MakeStreamingResponse(data, broker, sequences)
 	}
-	sequences = MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", data.ConversationID)
+	sequences = MakeStreamingMessage("The administrator has disabled the export capability of this model.\nProject: [soulteary/sparrow](https://github.com/soulteary/sparrow).\nTalk is Cheap, Let's coding together.", modelSlug, data.ConversationID, messageID)
 	return MakeStreamingResponse(data, broker, sequences)
 }
 
@@ -56,16 +60,16 @@ func MakeStreamingResponse(data datatypes.Conversation, broker *eb.Broker, seque
 	return true
 }
 
-func MakeResponseMessage(text string, conversationID string, newMessageID string, endTurn bool) datatypes.ConversationMessageGenerated {
+func MakeResponseMessage(text string, modelSlug, conversationID string, messageID string, endTurn bool) datatypes.ConversationMessageGenerated {
 	data := datatypes.ConversationMessageGenerated{
 		ConversationID: conversationID,
 		Message: datatypes.ConversationMessage{
-			ID:      newMessageID,
+			ID:      messageID,
 			Author:  mock.CreateMessageUser("assistant"),
 			Content: mock.CreateMessageContent("text", text),
 			Metadata: datatypes.ConversationMessageGeneratedMetaBody{
 				MessageType: "variant",
-				ModelSlug:   "text-davinci-002-render-sha",
+				ModelSlug:   modelSlug,
 			},
 			Weight:    1,
 			Recipient: "all",
@@ -77,7 +81,7 @@ func MakeResponseMessage(text string, conversationID string, newMessageID string
 	if endTurn {
 		data.Message.Metadata = datatypes.ConversationMessageGeneratedMessageMeta{
 			MessageType: "variant",
-			ModelSlug:   "text-davinci-002-render-sha",
+			ModelSlug:   modelSlug,
 			FinishDetails: datatypes.ConversationMessageGeneratedMessageMetaType{
 				Type: "stop",
 			},
@@ -87,13 +91,11 @@ func MakeResponseMessage(text string, conversationID string, newMessageID string
 	return data
 }
 
-func MakeStreamingMessage(text string, conversationID string) (ret []string) {
-	newConversationID := define.GenerateUUID()
-
+func MakeStreamingMessage(text string, modelSlug string, conversationID string, messageID string) (ret []string) {
 	var messages []datatypes.ConversationMessageGenerated
 
 	// Simulate the feeling of waiting for a response
-	message := MakeResponseMessage("", conversationID, newConversationID, false)
+	message := MakeResponseMessage("", modelSlug, conversationID, messageID, false)
 	for i := 0; i < 3; i++ {
 		messages = append(messages, message)
 	}
@@ -107,12 +109,12 @@ func MakeStreamingMessage(text string, conversationID string) (ret []string) {
 		for _, match := range matches {
 			if ContainMarkdownImage(match) || ContainMarkdownLink(match) {
 				s += match
-				messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, false))
+				messages = append(messages, MakeResponseMessage(s, modelSlug, conversationID, messageID, false))
 			} else {
 				context := strings.Split(match, "")
 				for i := 0; i < len(context); i++ {
 					s += context[i]
-					messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, false))
+					messages = append(messages, MakeResponseMessage(s, modelSlug, conversationID, messageID, false))
 				}
 			}
 		}
@@ -120,9 +122,9 @@ func MakeStreamingMessage(text string, conversationID string) (ret []string) {
 		// before last line
 		if lineId != lastLineId {
 			s += "\n"
-			messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, false))
+			messages = append(messages, MakeResponseMessage(s, modelSlug, conversationID, messageID, false))
 		} else {
-			messages = append(messages, MakeResponseMessage(s, conversationID, newConversationID, true))
+			messages = append(messages, MakeResponseMessage(s, modelSlug, conversationID, messageID, true))
 		}
 	}
 
