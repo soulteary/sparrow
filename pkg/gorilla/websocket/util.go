@@ -17,7 +17,7 @@ import (
 var keyGUID = []byte("258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
 
 func computeAcceptKey(challengeKey string) string {
-	h := sha1.New()
+	h := sha1.New() // #nosec
 	h.Write([]byte(challengeKey))
 	h.Write(keyGUID)
 	return base64.StdEncoding.EncodeToString(h.Sum(nil))
