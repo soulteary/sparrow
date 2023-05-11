@@ -6,7 +6,7 @@ package websocket
 
 import (
 	"crypto/rand"
-	"crypto/sha1"
+	"crypto/sha1" // #nosec
 	"encoding/base64"
 	"io"
 	"net/http"
