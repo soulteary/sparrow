@@ -13,7 +13,7 @@ import (
 func GetClient() *openai.Client {
 	config := openai.DefaultConfig(define.OPENAI_API_KEY)
 	if define.ENABLE_OPENAI_API_PROXY {
-		proxyUrl, err := url.Parse(define.DEFAULT_OPENAI_API_PROXY_ADDR)
+		proxyUrl, err := url.Parse(define.OPENAI_API_PROXY_ADDR)
 		if err != nil {
 			panic(err)
 		}
