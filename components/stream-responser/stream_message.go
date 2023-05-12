@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/soulteary/sparrow/internal/datatypes"
+	"github.com/soulteary/sparrow/internal/define"
 	"github.com/soulteary/sparrow/internal/mock"
 )
 
@@ -79,7 +80,7 @@ func MakeStreamingMessage(text string, modelSlug string, conversationID string, 
 	}
 
 	for _, message := range messages {
-		text, err := MakeJSON(message)
+		text, err := define.MakeJSON(message)
 		if err == nil {
 			ret = append(ret, " "+text)
 		}

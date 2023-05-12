@@ -65,11 +65,19 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			message := []byte(fmt.Sprintf("%s\n%s", data.ParentMessageID, userPrompt))
 			midjourney.PostMessage(midjourney.GetConn(), message)
 			broker.Serve(c, messageChan)
+			return
+		case "flag-studio":
+			streamGenerated := sr.StreamBuilder(data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			if streamGenerated {
+				broker.Serve(c, messageChan)
+			}
+			return
 		default:
 			streamGenerated := sr.StreamBuilder(data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}
+			return
 		}
 	}
 }

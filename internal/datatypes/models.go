@@ -108,3 +108,16 @@ var MODEL_MIDJOURNEY = ModelListItem{
 		Conciseness: []int{3, 5},
 	},
 }
+
+var MODEL_FLAGSTUDIO = ModelListItem{
+	Slug:        "flag-studio",
+	MaxTokens:   1000,
+	Title:       "FlagStudio",
+	Description: "FlagStudio is a text-to-image platform developed by BAAI's z-lab and FlagAI team.\n\nIt supports 18-language text-to-image generation including Chinese and English, and aims to provide advanced AI art creation experience.",
+	Tags:        []string{},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{4, 5},
+		Speed:       []int{4, 5},
+		Conciseness: []int{3, 5},
+	},
+}

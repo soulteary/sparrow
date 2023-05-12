@@ -2,7 +2,6 @@ package StreamResponser
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"regexp"
 
@@ -68,13 +67,4 @@ func ContainMarkdownImage(str string) bool {
 func ContainMarkdownLink(str string) bool {
 	var re = regexp.MustCompile(`\[.*?\]\(.*?\)`)
 	return len(re.FindAllString(str, -1)) > 0
-}
-
-func MakeJSON(data any) (string, error) {
-	ret, err := json.Marshal(data)
-	if err != nil {
-		fmt.Println(err)
-		return "", err
-	}
-	return string(ret), nil
 }

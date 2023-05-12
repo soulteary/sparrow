@@ -298,3 +298,36 @@ func TestGetRandomNumber(t *testing.T) {
 		}
 	}
 }
+
+func TestMakeJSON(t *testing.T) {
+	type test struct {
+		input interface{}
+		want  string
+		err   bool
+	}
+
+	tests := []test{
+		{input: "hello", want: "\"hello\""},
+		{input: 123, want: "123"},
+		{input: []string{"a", "b", "c"}, want: "[\"a\",\"b\",\"c\"]"},
+		{input: map[string]int{"a": 1, "b": 2}, want: "{\"a\":1,\"b\":2}"},
+		{input: func() {}, err: true},
+	}
+
+	for _, tc := range tests {
+		got, err := define.MakeJSON(tc.input)
+		if tc.err {
+			if err == nil {
+				t.Errorf("MakeJSON(%v) expected an error but did not get one", tc.input)
+			}
+			continue
+		}
+		if err != nil {
+			t.Errorf("MakeJSON(%v) got unexpected error: %v", tc.input, err)
+			continue
+		}
+		if got != tc.want {
+			t.Errorf("MakeJSON(%v) = %q; want %q", tc.input, got, tc.want)
+		}
+	}
+}

@@ -19,6 +19,10 @@ func GetModels(c *gin.Context) {
 		}
 	}
 
+	if true {
+		modelList = append(modelList, GetFlagStudioModel()...)
+	}
+
 	// modelList = append(modelList, GetCustomModels()...)
 
 	if define.ENABLE_OPENAI_API {

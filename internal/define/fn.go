@@ -2,6 +2,7 @@ package define
 
 import (
 	"crypto/rand"
+	"encoding/json"
 	"fmt"
 	"math/big"
 	"net/url"
@@ -104,4 +105,13 @@ func GetRandomNumber(min, max int) int {
 		return fallback
 	}
 	return int(num) + min
+}
+
+func MakeJSON(data any) (string, error) {
+	ret, err := json.Marshal(data)
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	return string(ret), nil
 }

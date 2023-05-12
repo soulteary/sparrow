@@ -4,6 +4,7 @@ import (
 	"time"
 
 	eb "github.com/soulteary/sparrow/components/event-broker"
+	FlagStudio "github.com/soulteary/sparrow/connectors/flag-studio"
 	OpenaiAPI "github.com/soulteary/sparrow/connectors/openai-api"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
@@ -37,6 +38,12 @@ func StreamBuilder(parentMessageID string, conversationID string, modelSlug stri
 			sequences = MakeStreamingMessage(input, modelSlug, conversationID, messageID, mode)
 			quickMode = true
 		}
+	case datatypes.MODEL_FLAGSTUDIO.Slug:
+		if define.ENABLE_FLAGSTUDIO {
+			sequences = MakeStreamingMessage(FlagStudio.GenerateImageByText(input), modelSlug, conversationID, messageID, mode)
+			quickMode = true
+		}
+
 		// case datatypes.MODEL_NO_MODELS.Slug:
 		// default:
 	}
