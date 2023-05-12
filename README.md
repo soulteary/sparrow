@@ -36,7 +36,7 @@ docker compose up -d
 
 ## Quick Overview
 
-**Talk is cheap, I'll show you the video (now), and the code (later).**
+**Talk is cheap, I'll show you the video, and the code.**
 
 - 2023.05.05 [Play MidJourney In ChatGPT](https://www.zhihu.com/pin/1637642465724325890)
 
