@@ -95,11 +95,11 @@ func parseTextToImage(buf []byte) (string, error) {
 		return "", err
 	}
 	if data.Code != 200 || data.Data == "" {
-		return "", fmt.Errorf("FlagStudio API, Get Result error, Code %d\n", data.Code)
+		return "", fmt.Errorf("FlagStudio API, Get Result error, Code %d", data.Code)
 	}
 
 	if data.Nsfw != 0 {
-		return "", fmt.Errorf("FlagStudio API, Get Token error, Code %d\n, Token: %s", data.Code, data.Nsfw)
+		return "", fmt.Errorf("FlagStudio API, Get Token error, Code %d\n, NSFW: %d", data.Code, data.Nsfw)
 	}
 
 	return data.Data, nil

@@ -31,7 +31,7 @@ func parseToken(buf []byte) (string, error) {
 func GetToken(apikey string) (string, error) {
 	req, err := http.NewRequest("GET", API_GET_TOKEN, nil)
 	if err != nil {
-		return "", fmt.Errorf("FlagStudio API, Error initializing network components", err)
+		return "", fmt.Errorf("FlagStudio API, Error initializing network components, err: %v", err)
 	}
 
 	req.Header.Set("Accept", "application/json")
@@ -42,22 +42,22 @@ func GetToken(apikey string) (string, error) {
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		fmt.Println(err)
-		return "", fmt.Errorf("FlagStudio API, Error sending request", err)
+		return "", fmt.Errorf("FlagStudio API, Error sending request, err: %v", err)
 	}
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
-		return "", fmt.Errorf("FlagStudio API, Error reading response", err)
+		return "", fmt.Errorf("FlagStudio API, Error reading response, err: %v", err)
 	}
 
 	token, err := parseToken(body)
 	if err != nil {
 		fmt.Println(err)
-		return "", fmt.Errorf("FlagStudio API, Error parsing response", err)
+		return "", fmt.Errorf("FlagStudio API, Error parsing response, err: %v", err)
 	}
 	return token, nil
 }

@@ -34,6 +34,6 @@ var (
 	MODJOURNEY_API_SECRET  = GetMidJourneySecret("MIDJOURNEY_API_SECRET", "")               // Midjourney API Secret
 	MIDJOURNEY_API_ADDR    = GetHostName("MIDJOURNEY_API_URL", DEFAULT_MIDJOURNEY_API_ADDR) // Midjourney API URL
 
-	ENABLE_FLAGSTUDIO  = GetBool("ENABLE_FLAGSTUDIO", false)                                            // Enable Flagstudio
+	ENABLE_FLAGSTUDIO  = GetBool("ENABLE_FLAGSTUDIO", false)           // Enable Flagstudio
 	FLAGSTUDIO_API_KEY = GetMidJourneySecret("FLAGSTUDIO_API_KEY", "") // Flagstudio API Token
 )
