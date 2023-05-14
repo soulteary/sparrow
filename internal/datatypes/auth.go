@@ -13,6 +13,8 @@ type SessionUser struct {
 	Email        string   `json:"email"`
 	Image        string   `json:"image"`
 	Picture      string   `json:"picture"`
+	Idp          string   `json:"idp"` // 23.05.08 added
+	Iat          int      `json:"iat"` // 23.05.14 added
 	Mfa          bool     `json:"mfa"`
 	Groups       []string `json:"groups"`
 	IntercomHash string   `json:"intercom_hash"`

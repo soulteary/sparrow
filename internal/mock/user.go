@@ -14,6 +14,8 @@ func AuthSession() datatypes.Session {
 			Image:        define.MOCK_USER_IMAGE,
 			Picture:      define.MOCK_USER_IMAGE,
 			Mfa:          false,
+			Iat:          define.MOCK_USER_IAT,
+			Idp:          define.MOCK_USER_IDP,
 			Groups:       []string{},
 			IntercomHash: define.GenerateRandomString(64),
 		},

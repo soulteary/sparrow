@@ -3,17 +3,7 @@ package datatypes
 type PageInfo struct {
 	Props struct {
 		PageProps struct {
-			User struct {
-				ID           string   `json:"id"`
-				Name         string   `json:"name"`
-				Email        string   `json:"email"`
-				Image        string   `json:"image"`
-				Picture      string   `json:"picture"`
-				Idp          string   `json:"idp"` // 23.05.08 added
-				Mfa          bool     `json:"mfa"`
-				Groups       []string `json:"groups"`
-				IntercomHash string   `json:"intercom_hash"`
-			} `json:"user"`
+			User          SessionUser `json:"user"`
 			ServiceStatus struct {
 			} `json:"serviceStatus"`
 			UserCountry         string `json:"userCountry"`

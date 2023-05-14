@@ -18,6 +18,7 @@ func GetConfig(c *gin.Context) {
 	pageInfo.Props.PageProps.User.Picture = define.MOCK_USER_IMAGE
 	pageInfo.Props.PageProps.User.Mfa = false
 	pageInfo.Props.PageProps.User.Idp = define.MOCK_USER_IDP
+	pageInfo.Props.PageProps.User.Iat = define.MOCK_USER_IAT
 	pageInfo.Props.PageProps.User.IntercomHash = define.MOCK_INTERCOM_HASH
 	pageInfo.Props.PageProps.User.Groups = []string{}
 	pageInfo.Props.PageProps.UserCountry = define.MOCK_USER_REGION
