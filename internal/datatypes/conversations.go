@@ -11,8 +11,10 @@ type ConversationsList struct {
 }
 
 type ConversationListItem struct {
-	ID         string    `json:"id"`
-	Title      string    `json:"title"`
-	CreateTime time.Time `json:"create_time"`
-	UpdateTime time.Time `json:"update_time"`
+	ID          string    `json:"id"`
+	Title       string    `json:"title"`
+	CreateTime  time.Time `json:"create_time"`
+	UpdateTime  time.Time `json:"update_time"`
+	Mapping     any       `json:"mapping"`
+	CurrentNode any       `json:"current_node"`
 }

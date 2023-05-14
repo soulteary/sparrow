@@ -15,10 +15,12 @@ func GetConversationList() datatypes.ConversationsList {
 	} else {
 		for i := 10; i < 30; i++ {
 			items = append(items, datatypes.ConversationListItem{
-				ID:         define.GenerateUUID(),
-				Title:      fmt.Sprintf("会话名称 %d", i-10+1),
-				CreateTime: time.Now(),
-				UpdateTime: time.Now(),
+				ID:          define.GenerateUUID(),
+				Title:       fmt.Sprintf("会话名称 %d", i-10+1),
+				CreateTime:  time.Now(),
+				UpdateTime:  time.Now(),
+				Mapping:     nil,
+				CurrentNode: nil,
 			})
 		}
 	}
