@@ -43,7 +43,7 @@ var (
 var (
 	ENABLE_MIDJOURNEY      = GetBool("ENABLE_MIDJOURNEY", false)                            // Enable Midjourney
 	ENABLE_MIDJOURNEY_ONLY = GetBool("ENABLE_MIDJOURNEY_ONLY", false)                       // Enable Midjourney only
-	MODJOURNEY_API_SECRET  = GetMidJourneySecret("MIDJOURNEY_API_SECRET", "")               // Midjourney API Secret
+	MIDJOURNEY_API_SECRET  = GetMidJourneySecret("MIDJOURNEY_API_SECRET", "")               // Midjourney API Secret
 	MIDJOURNEY_API_ADDR    = GetHostName("MIDJOURNEY_API_URL", DEFAULT_MIDJOURNEY_API_ADDR) // Midjourney API URL
 )
 

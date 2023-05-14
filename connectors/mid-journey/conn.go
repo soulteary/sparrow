@@ -17,7 +17,7 @@ func GetConn() *websocket.Conn {
 		return Conn
 	} else {
 		log.Println("Connected to Midjoruney API server.")
-		Conn = GetWebSocketConn(define.MODJOURNEY_API_SECRET)
+		Conn = GetWebSocketConn(define.MIDJOURNEY_API_SECRET)
 		return Conn
 	}
 }

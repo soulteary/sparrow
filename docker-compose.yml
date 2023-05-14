@@ -25,7 +25,7 @@ services:
       # => Enable the data control
       # ENABLE_DATA_CONTROL: true
       # => Enable the model switch
-      # ENABLE_MODEL_SWITCH: true
+      ENABLE_MODEL_SWITCH: "on"
 
       # [Plugin Settings] *optional
       # => Enable the plugin
@@ -51,13 +51,13 @@ services:
 
       # [Private Midjourney Server Settings] *optional
       # => Enable Midjourney
-      # ENABLE_MIDJOURNEY: true
+      # ENABLE_MIDJOURNEY: "on"
       # => Enable Midjourney Only
-      # ENABLE_MIDJOURNEY_ONLY: false
+      # ENABLE_MIDJOURNEY_ONLY: "on"
       # => Midjourney API Key
       # MIDJOURNEY_API_SECRET: "your-secret"
-      # => Midjourney API Address, eg: `"ws://...."`
-      # MIDJOURNEY_API_ADDR: "ws://localhost:8092/ws"
+      # => Midjourney API Address, eg: `"ws://...."`, or `"ws://host.docker.internal:8092/ws"`
+      # MIDJOURNEY_API_URL: "ws://localhost:8092/ws"
 
       # [Private Midjourney Server Settings] *optional
       # => Enable FlagStudio
