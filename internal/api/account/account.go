@@ -101,13 +101,16 @@ func GetFeatures() []string {
 	features = append(features, GetModelSwitcherFeatures()...)
 	features = append(features, GetPluginFeatures()...)
 
-	if define.DEV_MODE {
+	if define.DEV_MODE || define.ENABLE_PLUGIN_PLUGIN_DEV {
 		features = append(features, datatypes.FEATURE_DEBUG)
+		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_ADMIN)
+		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_DEV)
+	}
+
+	if define.DEV_MODE {
 		features = append(features, datatypes.FEATURE_SHAREABLE_LINKS)
 		// OpenAI internal debugging interface
 		// features = append(features, datatypes.FEATURE_SYSTEM_MESSAGE2)
-		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_ADMIN)
-		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_DEV)
 	}
 	return features
 }

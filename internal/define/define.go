@@ -24,6 +24,7 @@ var (
 	NEW_TOOLS_USER      = GetBool("NEW_TOOLS_USER", false)      // New tools user
 
 	ENABLE_PLUGIN                  = GetBool("ENABLE_PLUGIN", false)                  // Enable the plugin
+	ENABLE_PLUGIN_PLUGIN_DEV       = GetBool("ENABLE_PLUGIN_PLUGIN_DEV", false)       // Enable the plugin
 	ENABLE_PLUGIN_BROWSING         = GetBool("ENABLE_PLUGIN_BROWSING", false)         // Enable the plugin, Browsing
 	ENABLE_PLUGIN_CODE_INTERPRETER = GetBool("ENABLE_PLUGIN_CODE_INTERPRETER", false) // Enable the plugin, CodeInterpreter
 )
