@@ -20,7 +20,7 @@ type ModelListItem struct {
 	MaxTokens             int                            `json:"max_tokens"`
 	Title                 string                         `json:"title"`
 	Description           string                         `json:"description"`
-	Tags                  []string                       `json:"tags"`
+	Tags                  []string                       `json:"tags"` // "beta", "confidential", "alpha"
 	QualitativeProperties ModelListQualitativeProperties `json:"qualitative_properties"`
 	EnabledTools          []string                       `json:"enabled_tools,omitempty"`
 }

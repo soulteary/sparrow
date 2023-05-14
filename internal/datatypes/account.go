@@ -63,4 +63,6 @@ const (
 	FEATURE_PLUGINS_AVAILABLE          = "plugins_available"  // Plug-in permissions
 	FEATURE_PLUGINS_BROWSING_AVAILABLE = "browsing_available" // Plug-in permissions
 	FEATURE_PLUGINS_BROWSING_DISABLED  = "browsing_disabled"  // Plug-in permissions
+
+	FEATURE_SYSTEM_MESSAGE2 = "system_message2"
 )

@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	"github.com/soulteary/sparrow/internal/api/account"
@@ -13,6 +15,7 @@ import (
 	"github.com/soulteary/sparrow/internal/api/opengraph"
 	"github.com/soulteary/sparrow/internal/api/pageconfig"
 	"github.com/soulteary/sparrow/internal/api/settings"
+	"github.com/soulteary/sparrow/internal/mock"
 )
 
 func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
@@ -23,6 +26,10 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		backendAPI.POST("/accounts/data_export", account.DataExport)
 		backendAPI.POST("/accounts/deactivate", account.Deactivate)
 		backendAPI.GET("/settings/beta_features", settings.BetaFeatures)
+		backendAPI.GET("/user_system_messages", func(c *gin.Context) {
+			c.JSON(http.StatusNotFound, mock.GetMessageSystem2())
+		})
+
 		// share
 		// backendAPI.POST("/share/create", share.Create)
 		// backendAPI.PATCH("/share/", share.Create)

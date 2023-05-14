@@ -47,6 +47,8 @@ func AccountCheck() datatypes.AccountCheck {
 	if define.DEV_MODE {
 		features = append(features, datatypes.FEATURE_DEBUG)
 		features = append(features, datatypes.FEATURE_SHAREABLE_LINKS)
+		// OpenAI internal debugging interface
+		// features = append(features, datatypes.FEATURE_SYSTEM_MESSAGE2)
 	}
 
 	if !define.ENABLE_HISTORY_LIST {
