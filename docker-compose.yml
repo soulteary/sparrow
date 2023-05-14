@@ -61,7 +61,9 @@ services:
 
       # [Private Midjourney Server Settings] *optional
       # => Enable FlagStudio
-      # ENABLE_FLAGSTUDIO: true
+      # ENABLE_FLAGSTUDIO: "on"
+      # => Enable FlagStudio only
+      # ENABLE_FLAGSTUDIO_ONLY: "off"
       # => FlagStudio API Key
       # FLAGSTUDIO_API_KEY: "your-flagstudio-api-key"
 
