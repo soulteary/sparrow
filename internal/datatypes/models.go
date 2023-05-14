@@ -33,9 +33,9 @@ var MODEL_TEXT_DAVINCI_002_PLUGINS = ModelListItem{
 
 var MODEL_TEXT_DAVINCI_002_RENDER_SHA = ModelListItem{
 	Slug:        "text-davinci-002-render-sha",
-	MaxTokens:   4097,
+	MaxTokens:   8191,
 	Title:       "Default (GPT-3.5)",
-	Description: "Optimized for speed, currently available to Plus users",
+	Description: "Our fastest model, great for most everyday tasks.",
 	Tags:        []string{},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{3, 5},
@@ -44,6 +44,7 @@ var MODEL_TEXT_DAVINCI_002_RENDER_SHA = ModelListItem{
 	},
 }
 
+// discard 23.05.14
 var MODEL_TEXT_DAVINCI_002_RENDER_PAID = ModelListItem{
 	Slug:        "text-davinci-002-render-paid",
 	MaxTokens:   4097,
@@ -61,7 +62,7 @@ var MODEL_GPT4 = ModelListItem{
 	Slug:        "gpt-4",
 	MaxTokens:   4095,
 	Title:       "GPT-4",
-	Description: "Our most advanced model, available to Plus subscribers.\n\nGPT-4 excels at tasks that require advanced reasoning, complex instruction understanding, and more creativity.",
+	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
 	Tags:        []string{},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{5, 5},

@@ -18,22 +18,23 @@ func GetOfficialModels() (result []datatypes.ModelListItem) {
 	model35 := datatypes.MODEL_TEXT_DAVINCI_002_RENDER_SHA
 	if define.ENABLE_I18N {
 		model35.Title = "默认模型 (GPT-3.5)"
-		model35.Description = "针对速度进行了优化，目前可供 Plus 用户使用"
+		model35.Description = "我们最快的型号，非常适合大多数日常任务。"
 	}
 	result = append(result, model35)
 
-	modelLegacy := datatypes.MODEL_TEXT_DAVINCI_002_RENDER_PAID
-	if define.ENABLE_I18N {
-		modelLegacy.Title = "经典模型 (GPT-3.5)"
-		modelLegacy.Description = "早先时候的 ChatGPT Plus 模型"
-	}
+	// discard
+	// modelLegacy := datatypes.MODEL_TEXT_DAVINCI_002_RENDER_PAID
+	// if define.ENABLE_I18N {
+	// 	modelLegacy.Title = "经典模型 (GPT-3.5)"
+	// 	modelLegacy.Description = "早先时候的 ChatGPT Plus 模型"
+	// }
 
 	model4 := datatypes.MODEL_GPT4
 	if define.ENABLE_I18N {
 		model4.Title = "GPT-4"
-		model4.Description = "我们最先进的模型，可供 Plus 订阅者使用。\n\nGPT-4 擅长处理需要高级推理、复杂指令理解和更多创造力的任务。"
+		model4.Description = "我们最强大的模型，非常适合需要创造力和高级推理的任务。"
 	}
+	result = append(result, model4)
 
-	result = append(result, []datatypes.ModelListItem{modelLegacy, model4}...)
 	return result
 }
