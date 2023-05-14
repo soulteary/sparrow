@@ -1,5 +1,9 @@
 # Sparrow / 麻雀
 
+<p style="text-align: center;">
+  <a href="README.md">ENGLISH</a> | <a href="README_CN.md"  target="_blank">中文文档</a>
+</p>
+
 [![CodeQL](https://github.com/soulteary/sparrow/actions/workflows/codeql.yml/badge.svg)](https://github.com/soulteary/sparrow/actions/workflows/codeql.yml) [![Security Scan](https://github.com/soulteary/sparrow/actions/workflows/scan.yml/badge.svg)](https://github.com/soulteary/sparrow/actions/workflows/scan.yml) [![Release](https://github.com/soulteary/sparrow/actions/workflows/release.yaml/badge.svg)](https://github.com/soulteary/sparrow/actions/workflows/release.yaml) [![Go Report Card](https://goreportcard.com/badge/github.com/soulteary/sparrow)](https://goreportcard.com/report/github.com/soulteary/sparrow)
 
 <img src=".github/logo.png" width="30%">
@@ -8,7 +12,7 @@ ChatGPT Style client-compatible Backend Server, open source implementation.
 
 ## Usage
 
-You need to use it in combination with the ChatGPT Web Client project.
+The service can run independently, but if you want to get a quick result, you need to use OpenAI's client request method. A simple way is to use [soulteary/docker-chatgpt](https://github.com/soulteary/docker-chatgpt) client.
 
 If used alone, you can refer to the following command:
 
