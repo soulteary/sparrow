@@ -27,18 +27,22 @@ func GetConfig(c *gin.Context) {
 	pageInfo.Props.PageProps.SentryTraceData = define.MOCK_SENTRY_TRACE_DATA
 	pageInfo.Props.PageProps.SentryBaggage = define.MOCK_SENTRY_TRACE_ID
 
-	if define.ENABLE_PLUGIN {
-		pageInfo.Props.PageProps.User.Groups = append(pageInfo.Props.PageProps.User.Groups, "chatgpt-plugin-partners")
-		pageInfo.Query.Model = "text-davinci-002-plugins"
-	}
-
 	pageInfo.Props.NSsp = true
 	pageInfo.IsFallback = false
 	pageInfo.Gssp = true
 	pageInfo.ScriptLoader = []string{}
 
+	if define.ENABLE_PLUGIN {
+		pageInfo.Props.PageProps.User.Groups = append(pageInfo.Props.PageProps.User.Groups, "chatgpt-plugin-partners")
+		pageInfo.Query.Model = "text-davinci-002-plugins"
+	}
+
 	pageInfo.BuildID = c.Query("BuildID")
 	chatId := c.Query("ChatID")
+	model := c.Query("Model")
+	if model != "" {
+		pageInfo.Query.Model = model
+	}
 
 	if chatId != "" {
 		pageInfo.Page = "/c/[chatId]"

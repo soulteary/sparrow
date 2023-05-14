@@ -26,6 +26,7 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		backendAPI.POST("/accounts/data_export", account.DataExport)
 		backendAPI.POST("/accounts/deactivate", account.Deactivate)
 		backendAPI.GET("/settings/beta_features", settings.BetaFeatures)
+		backendAPI.POST("/settings/beta_features", settings.BetaFeatures)
 		backendAPI.GET("/user_system_messages", func(c *gin.Context) {
 			c.JSON(http.StatusNotFound, mock.GetMessageSystem2())
 		})
