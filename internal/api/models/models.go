@@ -12,26 +12,32 @@ func GetModels(c *gin.Context) {
 	var modelList []datatypes.ModelListItem
 
 	if define.ENABLE_MIDJOURNEY {
-		modelList = append(modelList, GetMidJourneyModel()...)
-		if define.ENABLE_ONLY_MIDJOURNEY {
-			c.JSON(http.StatusOK, datatypes.Models{Models: modelList})
+		model := GetMidJourneyModel()
+		if define.ENABLE_MIDJOURNEY_ONLY {
+			c.JSON(http.StatusOK, datatypes.Models{Models: model})
 			return
 		}
+		modelList = append(modelList, model...)
 	}
 
-	if true {
-		modelList = append(modelList, GetFlagStudioModel()...)
+	if define.ENABLE_FLAGSTUDIO {
+		model := GetFlagStudioModel()
+		if define.ENABLE_FLAGSTUDIO_ONLY {
+			c.JSON(http.StatusOK, datatypes.Models{Models: model})
+		}
+		modelList = append(modelList, model...)
+	}
+
+	if define.ENABLE_OPENAI_API {
+		model := GetApiWrapper35()
+		if define.ENABLE_OPENAI_API_ONLY {
+			c.JSON(http.StatusOK, datatypes.Models{Models: model})
+			return
+		}
+		modelList = append(modelList, model...)
 	}
 
 	// modelList = append(modelList, GetCustomModels()...)
-
-	if define.ENABLE_OPENAI_API {
-		modelList = append(modelList, GetApiWrapper35()...)
-		if define.ENABLE_OPENAI_ONLY_3_5 {
-			c.JSON(http.StatusOK, datatypes.Models{Models: modelList})
-			return
-		}
-	}
 
 	if define.ENABLE_OPENAI_OFFICIAL_MODEL {
 		modelList = append(modelList, GetOfficialModels()...)

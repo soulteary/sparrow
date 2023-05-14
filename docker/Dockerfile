@@ -4,6 +4,7 @@ WORKDIR /app
 ENV GO111MODULE=on
 ENV CGO_ENABLED=0
 ENV GOPROXY=https://goproxy.cn
+COPY ./pkg ./pkg
 COPY go.mod .
 COPY go.sum .
 RUN go mod download

@@ -26,7 +26,11 @@ func StreamBuilder(parentMessageID string, conversationID string, modelSlug stri
 	switch modelSlug {
 	case datatypes.MODEL_OPENAI_API_3_5.Slug:
 		if define.ENABLE_OPENAI_API {
-			sequences = MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, conversationID, messageID, mode)
+			if define.OPENAI_API_KEY == "" {
+				sequences = MakeStreamingMessage("OpenAI API Key needs to be set correctly.", modelSlug, conversationID, messageID, mode)
+			} else {
+				sequences = MakeStreamingMessage(OpenaiAPI.Get(input), modelSlug, conversationID, messageID, mode)
+			}
 			quickMode = false
 		}
 	case datatypes.MODEL_TEXT_DAVINCI_002_PLUGINS.Slug:

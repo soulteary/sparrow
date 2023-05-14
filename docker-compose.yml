@@ -38,18 +38,16 @@ services:
       # [Misc Settings] *optional
       # => Enable the official model
       # ENABLE_OPENAI_OFFICIAL_MODEL: true
-      # => Only Enable the 3.5 model
-      # ENABLE_OPENAI_ONLY_3_5: false
 
       # [Private OpenAI API Server Settings] *optional
       # => Enable OpenAI 3.5 API
-      # ENABLE_OPENAI_API: true
+      # ENABLE_OPENAI_API: "on"
       # => OpenAI API Key
-      # OPENAI_API_KEY: "sk-abcdefg"
+      # OPENAI_API_KEY: "sk-123456789012345678901234567890123456789012345678"
       # => Enable OpenAI API Proxy
-      # OPENAI_API_PROXY_ENABLE: false
+      # OPENAI_API_PROXY_ENABLE: "on"
       # => OpenAI API Proxy Address, eg: `"http://127.0.0.1:1234"` or ""
-      # OPENAI_API_PROXY_ADDR: ""
+      # OPENAI_API_PROXY_ADDR: "http://127.0.0.1:1234"
 
       # [Private Midjourney Server Settings] *optional
       # => Enable Midjourney
