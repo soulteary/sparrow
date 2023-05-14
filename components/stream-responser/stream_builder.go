@@ -26,7 +26,7 @@ func StreamBuilder(parentMessageID string, conversationID string, modelSlug stri
 	switch modelSlug {
 	case datatypes.MODEL_OPENAI_API_3_5.Slug:
 	case datatypes.MODEL_TEXT_DAVINCI_002_PLUGINS.Slug:
-	case datatypes.MODEL_TEXT_DAVINCI_002_RENDER_PAID.Slug:
+	// case datatypes.MODEL_TEXT_DAVINCI_002_RENDER_PAID.Slug:
 	case datatypes.MODEL_TEXT_DAVINCI_002_RENDER_SHA.Slug:
 	case datatypes.MODEL_GPT4.Slug:
 		if define.ENABLE_OPENAI_API {

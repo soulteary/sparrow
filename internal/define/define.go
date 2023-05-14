@@ -14,13 +14,15 @@ var (
 	WEB_CLIENT_HOSTNAME = GetHostName("WEB_CLIENT_HOSTNAME", DEFAULT_WEB_CLIENT_HOSTNAME)
 	RESPONSE_SPEED      = GetGenerateSpeed("RESPONSE_SPEED", 10)
 
-	ENABLE_HISTORY_LIST      = GetBool("ENABLE_HISTORY_LIST", true)       // Enable history list
-	ENABLE_I18N              = GetBool("ENABLE_I18N", true)               // Enable i18n
-	ENABLE_DATA_CONTROL      = GetBool("ENABLE_DATA_CONTROL", false)      // Enable the data control
-	ENABLE_MODEL_SWITCH      = GetBool("ENABLE_MODEL_SWITCH", true)       // Enable the model switch
-	ENABLE_MODEL_SWITCH_0512 = GetBool("ENABLE_MODEL_SWITCH_0512", true)  // Enable the model switch
-	ENABLE_PAID_SUBSCRIPTION = GetBool("ENABLE_PAID_SUBSCRIPTION", false) // Enable the subscription
-	ENABLE_PLUGIN            = GetBool("ENABLE_PLUGIN", true)             // Enable the plugin
+	ENABLE_HISTORY_LIST            = GetBool("ENABLE_HISTORY_LIST", true)            // Enable history list
+	ENABLE_I18N                    = GetBool("ENABLE_I18N", true)                    // Enable i18n
+	ENABLE_DATA_CONTROL            = GetBool("ENABLE_DATA_CONTROL", false)           // Enable the data control
+	ENABLE_MODEL_SWITCH            = GetBool("ENABLE_MODEL_SWITCH", true)            // Enable the model switch
+	ENABLE_MODEL_SWITCH_0512       = GetBool("ENABLE_MODEL_SWITCH_0512", true)       // Enable the model switch
+	ENABLE_PAID_SUBSCRIPTION       = GetBool("ENABLE_PAID_SUBSCRIPTION", false)      // Enable the subscription
+	ENABLE_PLUGIN                  = GetBool("ENABLE_PLUGIN", true)                  // Enable the plugin
+	ENABLE_PLUGIN_BROWSING         = GetBool("ENABLE_PLUGIN_BROWSING", true)         // Enable the plugin, Browsing
+	ENABLE_PLUGIN_CODE_INTERPRETER = GetBool("ENABLE_PLUGIN_CODE_INTERPRETER", true) // Enable the plugin, CodeInterpreter
 
 	ENABLE_OPENAI_OFFICIAL_MODEL = GetBool("ENABLE_OPENAI_OFFICIAL_MODEL", true) // Enable the official model
 	ENABLE_OPENAI_ONLY_3_5       = GetBool("ENABLE_OPENAI_ONLY_3_5", true)       // Only Enable the 3.5 model

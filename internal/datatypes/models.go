@@ -1,7 +1,18 @@
 package datatypes
 
 type Models struct {
-	Models []ModelListItem `json:"models"`
+	Models     []ModelListItem  `json:"models"`
+	Categories []ModelsCategory `json:"categories,omitempty"`
+}
+
+type ModelsCategory struct {
+	Category             string `json:"category"`
+	HumanCategoryName    string `json:"human_category_name"`
+	SubscriptionLevel    string `json:"subscription_level"`
+	DefaultModel         string `json:"default_model"`
+	BrowsingModel        any    `json:"browsing_model"`
+	CodeInterpreterModel any    `json:"code_interpreter_model"`
+	PluginsModel         any    `json:"plugins_model"`
 }
 
 type ModelListItem struct {
@@ -44,19 +55,29 @@ var MODEL_TEXT_DAVINCI_002_RENDER_SHA = ModelListItem{
 	},
 }
 
-// discard 23.05.14
-var MODEL_TEXT_DAVINCI_002_RENDER_PAID = ModelListItem{
-	Slug:        "text-davinci-002-render-paid",
-	MaxTokens:   4097,
-	Title:       "Legacy (GPT-3.5)",
-	Description: "The previous ChatGPT Plus model",
-	Tags:        []string{},
-	QualitativeProperties: ModelListQualitativeProperties{
-		Reasoning:   []int{3, 5},
-		Speed:       []int{2, 5},
-		Conciseness: []int{1, 5},
-	},
+var MODEL_TEXT_DAVINCI_002_RENDER_SHA_CATEGORY = ModelsCategory{
+	BrowsingModel:        nil,
+	Category:             "gpt_3.5",
+	CodeInterpreterModel: nil,
+	DefaultModel:         "text-davinci-002-render-sha",
+	HumanCategoryName:    "GPT-3.5",
+	PluginsModel:         nil,
+	SubscriptionLevel:    "free",
 }
+
+// discard 23.05.14
+// var MODEL_TEXT_DAVINCI_002_RENDER_PAID = ModelListItem{
+// 	Slug:        "text-davinci-002-render-paid",
+// 	MaxTokens:   4097,
+// 	Title:       "Legacy (GPT-3.5)",
+// 	Description: "The previous ChatGPT Plus model",
+// 	Tags:        []string{},
+// 	QualitativeProperties: ModelListQualitativeProperties{
+// 		Reasoning:   []int{3, 5},
+// 		Speed:       []int{2, 5},
+// 		Conciseness: []int{1, 5},
+// 	},
+// }
 
 var MODEL_GPT4 = ModelListItem{
 	Slug:        "gpt-4",
@@ -69,6 +90,16 @@ var MODEL_GPT4 = ModelListItem{
 		Speed:       []int{2, 5},
 		Conciseness: []int{4, 5},
 	},
+}
+
+var MODEL_GPT4_CATEGORY = ModelsCategory{
+	BrowsingModel:        "gpt-4-browsing",
+	Category:             "gpt_4",
+	CodeInterpreterModel: "gpt-4-code-interpreter",
+	DefaultModel:         "gpt-4",
+	HumanCategoryName:    "GPT-4",
+	PluginsModel:         "gpt-4-plugins",
+	SubscriptionLevel:    "plus",
 }
 
 var MODEL_OPENAI_API_3_5 = ModelListItem{

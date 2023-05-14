@@ -12,6 +12,7 @@ import (
 	"github.com/soulteary/sparrow/internal/api/moderations"
 	"github.com/soulteary/sparrow/internal/api/opengraph"
 	"github.com/soulteary/sparrow/internal/api/pageconfig"
+	"github.com/soulteary/sparrow/internal/api/settings"
 )
 
 func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
@@ -21,6 +22,7 @@ func Backend(r *gin.Engine, brokerPool *eb.BrokersPool) {
 		backendAPI.GET("/accounts/check", account.AccountCheck)
 		backendAPI.POST("/accounts/data_export", account.DataExport)
 		backendAPI.POST("/accounts/deactivate", account.Deactivate)
+		backendAPI.GET("/settings/beta_features", settings.BetaFeatures)
 		// share
 		// backendAPI.POST("/share/create", share.Create)
 		// backendAPI.PATCH("/share/", share.Create)
