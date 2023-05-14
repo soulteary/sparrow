@@ -17,13 +17,13 @@ services:
 
       # [Advanced Settings] *optional
       # => Enable the new UI
-      # FEATURE_NEW_UI: true
+      # FEATURE_NEW_UI: "on"
       # => Enable history list
-      # ENABLE_HISTORY_LIST: true
+      # ENABLE_HISTORY_LIST: "on"
       # => Enable i18n
-      # ENABLE_I18N: true
+      # ENABLE_I18N: "on"
       # => Enable the data control
-      # ENABLE_DATA_CONTROL: true
+      # ENABLE_DATA_CONTROL: "on"
       # => Enable the model switch
       ENABLE_MODEL_SWITCH: "on"
       # enable the openai official model (include the plugin model)
