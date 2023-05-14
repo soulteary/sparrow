@@ -26,18 +26,18 @@ services:
       # ENABLE_DATA_CONTROL: true
       # => Enable the model switch
       ENABLE_MODEL_SWITCH: "on"
+      # enable the openai official model (include the plugin model)
+      # ENABLE_OPENAI_OFFICIAL_MODEL: "on"
 
       # [Plugin Settings] *optional
       # => Enable the plugin
-      # ENABLE_PLUGIN: true
+      # ENABLE_PLUGIN: "on"
       # => Enable the plugin browsing
-      # ENABLE_PLUGIN_BROWSING: true
+      # ENABLE_PLUGIN_BROWSING: "on"
       # => Enable the plugin code interpreter
-      # ENABLE_PLUGIN_CODE_INTERPRETER: true
-
-      # [Misc Settings] *optional
-      # => Enable the official model
-      # ENABLE_OPENAI_OFFICIAL_MODEL: true
+      # ENABLE_PLUGIN_CODE_INTERPRETER: "on"
+      # enable the plugin model dev feature
+      # ENABLE_PLUGIN_PLUGIN_DEV: "on"
 
       # [Private OpenAI API Server Settings] *optional
       # => Enable OpenAI 3.5 API
