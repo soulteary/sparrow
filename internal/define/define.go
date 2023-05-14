@@ -18,6 +18,7 @@ var (
 	ENABLE_I18N              = GetBool("ENABLE_I18N", true)               // Enable i18n
 	ENABLE_DATA_CONTROL      = GetBool("ENABLE_DATA_CONTROL", false)      // Enable the data control
 	ENABLE_MODEL_SWITCH      = GetBool("ENABLE_MODEL_SWITCH", true)       // Enable the model switch
+	ENABLE_MODEL_SWITCH_0512 = GetBool("ENABLE_MODEL_SWITCH_0512", true)  // Enable the model switch
 	ENABLE_PAID_SUBSCRIPTION = GetBool("ENABLE_PAID_SUBSCRIPTION", false) // Enable the subscription
 	ENABLE_PLUGIN            = GetBool("ENABLE_PLUGIN", true)             // Enable the plugin
 

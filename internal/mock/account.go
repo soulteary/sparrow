@@ -27,11 +27,15 @@ func AccountCheck() datatypes.AccountCheck {
 		datatypes.FEATURE_DFW_INLINE_MESSAGE_REGEN,
 		datatypes.FEATURE_SYSTEM_MESSAGE,
 		datatypes.FEATURE_SHOW_EXISTING_USER_AGE_CONFIRM_MODAL,
+		datatypes.FEATURE_ALLOW_BETA_FEATURES,
 	}
 
-	if define.ENABLE_MODEL_SWITCH {
+	if define.ENABLE_MODEL_SWITCH || define.ENABLE_MODEL_SWITCH_0512 {
 		features = append(features, datatypes.FEATURE_MODEL_SWITCHER)
 		features = append(features, datatypes.FEATURE_MODEL_PREVIEWER)
+	}
+	if define.ENABLE_MODEL_SWITCH_0512 {
+		features = append(features, datatypes.FEATURE_MODEL_SWITCHER_0512)
 	}
 
 	if define.ENABLE_DATA_CONTROL {
@@ -47,6 +51,7 @@ func AccountCheck() datatypes.AccountCheck {
 
 	if !define.ENABLE_HISTORY_LIST {
 		features = append(features, datatypes.FEATURE_DISABLE_HISTORY)
+		features = append(features, datatypes.FEATURE_SCROLL_HISTORY)
 	} else {
 		features = append(features, datatypes.FEATURE_BUCKETED_HISTORY)
 	}
@@ -54,10 +59,15 @@ func AccountCheck() datatypes.AccountCheck {
 	if define.ENABLE_PLUGIN {
 		features = append(features, datatypes.FEATURE_PLIGIN_BROWSING) // No need after 0427
 		features = append(features, datatypes.FEATURE_PLIGIN_CODE)
+		features = append(features, datatypes.FEATURE_PLUGINS_AVAILABLE)
+		features = append(features, datatypes.FEATURE_PLUGINS_BROWSING_AVAILABLE)
 
 		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN)
 		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_ADMIN)
 		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_DEV)
+	} else {
+		features = append(features, datatypes.FEATURE_PLUGINS_DISABLED)
+		features = append(features, datatypes.FEATURE_PLUGINS_BROWSING_DISABLED)
 	}
 
 	data := datatypes.AccountCheck{

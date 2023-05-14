@@ -39,13 +39,18 @@ const (
 	FEATURE_ONFOFF_STATUE_ACCOUNT                = "oneoff_status_account"                     // If you purchase a service during a service interruption, you will be prompted for a refund
 	FEATURE_SHOW_EXISTING_USER_AGE_CONFIRM_MODAL = "show_existing_user_age_confirmation_modal" // 23.05.08 Added, display age confirmation pop-up window
 	// models
-	FEATURE_MODEL_SWITCHER  = "model_switcher" // The model can be switched in the interface, and the Plus account is enabled by default
-	FEATURE_MODEL_PREVIEWER = "model_preview"  // Remind the limit when using the preview model, the Plus account is enabled by default
+	FEATURE_MODEL_SWITCHER      = "model_switcher"              // The model can be switched in the interface, and the Plus account is enabled by default
+	FEATURE_MODEL_SWITCHER_0512 = "new_model_switcher_20230512" // ?
+	FEATURE_MODEL_PREVIEWER     = "model_preview"               // Remind the limit when using the preview model, the Plus account is enabled by default
+	FEATURE_ALLOW_BETA_FEATURES = "beta_features"               // 23.05.14 Added, allow use beta features
+
 	// misc
-	FEATURE_DISABLE_UPGRADE_UI = "disable_upgrade_ui" // Enabled by default except for Plus accounts
-	FEATURE_DISABLE_HISTORY    = "disable_history"    // Disable the session history, only the interface is reflected
-	FEATURE_BUCKETED_HISTORY   = "bucketed_history"   // Enabled by default, Display history in buckets
-	FEATURE_SHAREABLE_LINKS    = "shareable_links"    // 23.05.08 Added, conversation sharing feat
+	FEATURE_DISABLE_UPGRADE_UI = "disable_upgrade_ui"      // Enabled by default except for Plus accounts
+	FEATURE_DISABLE_HISTORY    = "disable_history"         // Disable the session history, only the interface is reflected
+	FEATURE_BUCKETED_HISTORY   = "bucketed_history"        // Enabled by default, Display history in buckets
+	FEATURE_SCROLL_HISTORY     = "infinite_scroll_history" // Enabled by default, infinite scroll history
+
+	FEATURE_SHAREABLE_LINKS = "shareable_links" // 23.05.08 Added, conversation sharing feat
 	// plugins
 	FEATURE_DEBUG               = "debug"        // Developer permissions, debug mode
 	FEATURE_PLIGIN_BROWSING     = "tools"        // Plug-in permissions
@@ -53,4 +58,9 @@ const (
 	FEATURE_PLIGIN_PLUGIN       = "tools3"       // Plug-in permissions
 	FEATURE_PLIGIN_PLUGIN_ADMIN = "tools3_admin" // Plug-in permissions
 	FEATURE_PLIGIN_PLUGIN_DEV   = "tools3_dev"   // Plug-in permissions
+
+	FEATURE_PLUGINS_DISABLED           = "plugins_disabled"   // Plug-in permissions
+	FEATURE_PLUGINS_AVAILABLE          = "plugins_available"  // Plug-in permissions
+	FEATURE_PLUGINS_BROWSING_AVAILABLE = "browsing_available" // Plug-in permissions
+	FEATURE_PLUGINS_BROWSING_DISABLED  = "browsing_disabled"  // Plug-in permissions
 )
