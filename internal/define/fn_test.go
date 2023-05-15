@@ -282,7 +282,7 @@ func TestGetMidJourneySecret(t *testing.T) {
 		os.Setenv(test.envKey, test.input)
 		defer os.Unsetenv(test.envKey)
 		t.Run(test.name, func(t *testing.T) {
-			got := define.GetMidJourneySecret(test.envKey, test.def)
+			got := define.GetSecret(test.envKey, test.def)
 			if got != test.expect {
 				t.Errorf("GetMidJourneySecret(%s, %s) = %s; expect %s", test.envKey, test.def, got, test.expect)
 			}
