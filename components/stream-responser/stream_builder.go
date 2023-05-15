@@ -47,7 +47,11 @@ func StreamBuilder(parentMessageID string, conversationID string, modelSlug stri
 			sequences = MakeStreamingMessage(FlagStudio.GenerateImageByText(input), modelSlug, conversationID, messageID, mode)
 			quickMode = true
 		}
-
+	case datatypes.MODEL_CLAUDE.Slug:
+		if define.ENABLE_CLAUDE {
+			sequences = MakeStreamingMessage(input, modelSlug, conversationID, messageID, mode)
+			quickMode = true
+		}
 		// case datatypes.MODEL_NO_MODELS.Slug:
 		// default:
 	}

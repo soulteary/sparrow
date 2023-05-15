@@ -44,19 +44,19 @@ var (
 var (
 	ENABLE_MIDJOURNEY      = GetBool("ENABLE_MIDJOURNEY", false)                            // Enable Midjourney
 	ENABLE_MIDJOURNEY_ONLY = GetBool("ENABLE_MIDJOURNEY_ONLY", false)                       // Enable Midjourney only
-	MIDJOURNEY_API_SECRET  = GetSecret("MIDJOURNEY_API_SECRET", "")                         // Midjourney API Secret
+	MIDJOURNEY_API_SECRET  = GetSecret("MIDJOURNEY_API_SECRET", "YOUR_MIDJOURNEY_SECRET")   // Midjourney API Secret
 	MIDJOURNEY_API_ADDR    = GetHostName("MIDJOURNEY_API_URL", DEFAULT_MIDJOURNEY_API_ADDR) // Midjourney API URL
 )
 
 var (
-	ENABLE_FLAGSTUDIO      = GetBool("ENABLE_FLAGSTUDIO", false)      // Enable Flagstudio
-	ENABLE_FLAGSTUDIO_ONLY = GetBool("ENABLE_FLAGSTUDIO_ONLY", false) // Enable Flagstudio only
-	FLAGSTUDIO_API_KEY     = GetSecret("FLAGSTUDIO_API_KEY", "")      // Flagstudio API Token
+	ENABLE_FLAGSTUDIO      = GetBool("ENABLE_FLAGSTUDIO", false)                       // Enable Flagstudio
+	ENABLE_FLAGSTUDIO_ONLY = GetBool("ENABLE_FLAGSTUDIO_ONLY", false)                  // Enable Flagstudio only
+	FLAGSTUDIO_API_KEY     = GetSecret("FLAGSTUDIO_API_KEY", "YOUR_FLAGSTUDIO_SECRET") // Flagstudio API Token
 )
 
 var (
-	ENABLE_CLAUDE      = GetBool("ENABLE_CLAUDE", true)                          // Enable Claude
-	ENABLE_CLAUDE_ONLY = GetBool("ENABLE_CLAUDE_ONLY", false)                    // Enable Claude only
-	CLAUDE_API_SECRET  = GetSecret("CLAUDE_API_SECRET", "")                      // Claude API Secret
-	CLAUDE_API_ADDR    = GetHostName("Claude_API_ADDR", DEFAULT_CLAUDE_API_ADDR) // Claude API URL
+	ENABLE_CLAUDE      = GetBool("ENABLE_CLAUDE", false)                        // Enable Claude
+	ENABLE_CLAUDE_ONLY = GetBool("ENABLE_CLAUDE_ONLY", false)                   // Enable Claude only
+	CLAUDE_API_SECRET  = GetSecret("CLAUDE_API_SECRET", "YOUR_CLAUDE_SECRET")   // Claude API Secret
+	CLAUDE_API_ADDR    = GetHostName("CLAUDE_API_URL", DEFAULT_CLAUDE_API_ADDR) // Claude API URL
 )

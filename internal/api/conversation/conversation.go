@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	sr "github.com/soulteary/sparrow/components/stream-responser"
+	claude "github.com/soulteary/sparrow/connectors/claude"
 	midjourney "github.com/soulteary/sparrow/connectors/mid-journey"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
@@ -61,16 +62,21 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 		c.Request.Header.Set("x-message-id", data.ParentMessageID)
 
 		switch userModel {
-		case "mid-journey":
+		case datatypes.MODEL_MIDJOURNEY.Slug:
 			message := []byte(fmt.Sprintf("%s\n%s", data.ParentMessageID, userPrompt))
 			midjourney.PostMessage(midjourney.GetConn(), message)
 			broker.Serve(c, messageChan)
 			return
-		case "flag-studio":
+		case datatypes.MODEL_FLAGSTUDIO.Slug:
 			streamGenerated := sr.StreamBuilder(data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}
+			return
+		case datatypes.MODEL_CLAUDE.Slug:
+			message := []byte(fmt.Sprintf("%s\n%s", data.ParentMessageID, userPrompt))
+			midjourney.PostMessage(claude.GetConn(), message)
+			broker.Serve(c, messageChan)
 			return
 		default:
 			streamGenerated := sr.StreamBuilder(data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	eb "github.com/soulteary/sparrow/components/event-broker"
+	claude "github.com/soulteary/sparrow/connectors/claude"
 	midjourney "github.com/soulteary/sparrow/connectors/mid-journey"
 	"github.com/soulteary/sparrow/internal/api"
 	"github.com/soulteary/sparrow/internal/define"
@@ -25,6 +26,10 @@ func main() {
 
 	if define.ENABLE_MIDJOURNEY {
 		go midjourney.KeepConnection(brokerPool)
+	}
+
+	if define.ENABLE_CLAUDE {
+		go claude.KeepConnection(brokerPool)
 	}
 
 	server.Launched(engine)
