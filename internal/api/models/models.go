@@ -11,6 +11,15 @@ import (
 func GetModels(c *gin.Context) {
 	var modelList []datatypes.ModelListItem
 
+	if define.ENABLE_CLAUDE {
+		model := GetClaudeModel()
+		if define.ENABLE_CLAUDE_ONLY {
+			c.JSON(http.StatusOK, datatypes.Models{Models: model})
+			return
+		}
+		modelList = append(modelList, model...)
+	}
+
 	if define.ENABLE_MIDJOURNEY {
 		model := GetMidJourneyModel()
 		if define.ENABLE_MIDJOURNEY_ONLY {

@@ -153,3 +153,16 @@ var MODEL_FLAGSTUDIO = ModelListItem{
 		Conciseness: []int{3, 5},
 	},
 }
+
+var MODEL_CLAUDE = ModelListItem{
+	Slug:        "claude",
+	MaxTokens:   8192,
+	Title:       "Claude",
+	Description: "Claude is a next-generation AI assistant based on Anthropic's research into training helpful, honest, and harmless AI systems.",
+	Tags:        []string{},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{5, 5},
+		Speed:       []int{3, 5},
+		Conciseness: []int{4, 5},
+	},
+}
