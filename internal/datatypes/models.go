@@ -92,6 +92,45 @@ var MODEL_GPT4 = ModelListItem{
 	},
 }
 
+var MODEL_GPT4_BROWSING = ModelListItem{
+	Slug:        "gpt-4-browsing",
+	MaxTokens:   4095,
+	Title:       "GPT-4 Browsing",
+	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
+	Tags:        []string{"beta"},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{5, 5},
+		Speed:       []int{2, 5},
+		Conciseness: []int{4, 5},
+	},
+}
+
+var MODEL_GPT4_CODE = ModelListItem{
+	Slug:        "gpt-4-code-interpreter",
+	MaxTokens:   4095,
+	Title:       "GPT-4 Code Interpreter",
+	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
+	Tags:        []string{"beta"},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{5, 5},
+		Speed:       []int{2, 5},
+		Conciseness: []int{4, 5},
+	},
+}
+
+var MODEL_GPT4_PLUGIN = ModelListItem{
+	Slug:        "gpt-4-plugins",
+	MaxTokens:   4095,
+	Title:       "GPT-4 Plugins",
+	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
+	Tags:        []string{"beta"},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{5, 5},
+		Speed:       []int{2, 5},
+		Conciseness: []int{4, 5},
+	},
+}
+
 var MODEL_GPT4_CATEGORY = ModelsCategory{
 	BrowsingModel:        "gpt-4-browsing",
 	Category:             "gpt_4",
@@ -126,6 +165,29 @@ var MODEL_NO_MODELS = ModelListItem{
 		Speed:       []int{0, 5},
 		Conciseness: []int{0, 5},
 	},
+}
+
+var MODEL_OTHER = ModelListItem{
+	Slug:        "other",
+	MaxTokens:   4095,
+	Title:       "Other",
+	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
+	Tags:        []string{},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{5, 5},
+		Speed:       []int{2, 5},
+		Conciseness: []int{4, 5},
+	},
+}
+
+var MODEL_OTHER_CATEGORY = ModelsCategory{
+	BrowsingModel:        "other",
+	Category:             "other",
+	CodeInterpreterModel: "other-code-interpreter",
+	DefaultModel:         "other",
+	HumanCategoryName:    "other",
+	PluginsModel:         "other-plugins",
+	SubscriptionLevel:    "free",
 }
 
 var MODEL_MIDJOURNEY = ModelListItem{

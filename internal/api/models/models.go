@@ -56,6 +56,6 @@ func GetModels(c *gin.Context) {
 		modelList = GetEmptyPlaceHolder()
 	}
 
-	categories := []datatypes.ModelsCategory{datatypes.MODEL_TEXT_DAVINCI_002_RENDER_SHA_CATEGORY, datatypes.MODEL_GPT4_CATEGORY}
+	categories := []datatypes.ModelsCategory{datatypes.MODEL_TEXT_DAVINCI_002_RENDER_SHA_CATEGORY, datatypes.MODEL_GPT4_CATEGORY, datatypes.MODEL_OTHER_CATEGORY}
 	c.JSON(http.StatusOK, datatypes.Models{Models: modelList, Categories: categories})
 }

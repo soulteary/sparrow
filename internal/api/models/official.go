@@ -36,5 +36,11 @@ func GetOfficialModels() (result []datatypes.ModelListItem) {
 	}
 	result = append(result, model4)
 
+	// gradually open...
+	result = append(result, datatypes.MODEL_GPT4_BROWSING)
+	result = append(result, datatypes.MODEL_GPT4_CODE)
+	result = append(result, datatypes.MODEL_GPT4_PLUGIN)
+	result = append(result, datatypes.MODEL_OTHER)
+
 	return result
 }

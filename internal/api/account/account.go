@@ -45,6 +45,8 @@ func GetUIFeatures() []string {
 	if define.ENABLE_NEW_UI {
 		return []string{
 			datatypes.FEATURE_MODEL_SWITCHER_0512,
+			datatypes.FEATURE_MESSAGE_STYLE_05,
+			datatypes.FEATURE_LAYOUT_2023,
 			datatypes.FEATURE_MODEL_PREVIEWER,
 		}
 	}
@@ -70,6 +72,7 @@ func GetPluginFeatures() []string {
 			features = append(features, datatypes.FEATURE_PLUGINS_BROWSING_AVAILABLE)
 			features = append(features, datatypes.FEATURE_PLIGIN_BROWSING)
 		}
+		features = append(features, datatypes.FEATURE_PLUGINS_BROWSING_MONOLOGUE)
 	} else {
 		features = append(features, datatypes.FEATURE_PLUGINS_BROWSING_DISABLED)
 	}
@@ -109,9 +112,13 @@ func GetFeatures() []string {
 
 	if define.DEV_MODE {
 		features = append(features, datatypes.FEATURE_SHAREABLE_LINKS)
+		features = append(features, datatypes.FEATURE_PROMPT_SUGGESTIONS)
+		features = append(features, datatypes.FEATURE_I18N)
+
 		// OpenAI internal debugging interface
 		// features = append(features, datatypes.FEATURE_SYSTEM_MESSAGE2)
 	}
+
 	return features
 }
 
