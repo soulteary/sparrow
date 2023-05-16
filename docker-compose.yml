@@ -67,6 +67,16 @@ services:
       # => FlagStudio API Key
       # FLAGSTUDIO_API_KEY: "your-flagstudio-api-key"
 
+      # [Private Claude Server Settings] *optional
+      # => Enable Claude
+      # ENABLE_CLAUDE: "on"
+      # => Enable Claude Only
+      # ENABLE_CLAUDE_ONLY: "on"
+      # => Claude API Key
+      # CLAUDE_API_SECRET: "your-secret"
+      # => Claude API Address, eg: `"ws://...."`, or `"ws://host.docker.internal:8093/ws"`
+      # CLAUDE_API_URL: "ws://localhost:8093/ws"
+
     logging:
         driver: "json-file"
         options:
