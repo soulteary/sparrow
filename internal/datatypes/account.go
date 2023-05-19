@@ -41,6 +41,8 @@ const (
 	// account
 	FEATURE_ONFOFF_STATUE_ACCOUNT                = "oneoff_status_account"                     // If you purchase a service during a service interruption, you will be prompted for a refund
 	FEATURE_SHOW_EXISTING_USER_AGE_CONFIRM_MODAL = "show_existing_user_age_confirmation_modal" // 23.05.08 Added, display age confirmation pop-up window
+	FEATURE_ACCOUNT_CHECK_V4                     = "use_account_check_v4"                      // 23.05.19 Added, enabled by default
+	FEATURE_ACCOUNT_BUSINESS_SEATS               = "business_seats"                            // 23.05.19 Added, enabled by default
 
 	// models & UI
 	FEATURE_MODEL_SWITCHER      = "model_switcher"              // The model can be switched in the interface, and the Plus account is enabled by default

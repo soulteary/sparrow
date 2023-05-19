@@ -17,6 +17,7 @@ func GetDefaultFeatures() []string {
 		datatypes.FEATURE_DFW_INLINE_MESSAGE_REGEN,
 		datatypes.FEATURE_SYSTEM_MESSAGE,
 		datatypes.FEATURE_SHOW_EXISTING_USER_AGE_CONFIRM_MODAL,
+		datatypes.FEATURE_ACCOUNT_CHECK_V4,
 	}
 }
 
@@ -114,6 +115,7 @@ func GetFeatures() []string {
 		features = append(features, datatypes.FEATURE_SHAREABLE_LINKS)
 		features = append(features, datatypes.FEATURE_PROMPT_SUGGESTIONS)
 		features = append(features, datatypes.FEATURE_I18N)
+		features = append(features, datatypes.FEATURE_ACCOUNT_BUSINESS_SEATS)
 
 		// OpenAI internal debugging interface
 		// features = append(features, datatypes.FEATURE_SYSTEM_MESSAGE2)
