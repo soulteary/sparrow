@@ -74,7 +74,7 @@ func AccountTempCheck(c *gin.Context) {
 					IsMostRecentExpiredSubscriptionGratis: false,
 					HasPreviouslyPaidSubscription:         true,
 				},
-				Features: []string{"dfw_inline_message_regen_comparison", "infinite_scroll_history", "model_preview", "browsing_available", "log_intercom_events", "data_controls_enabled", "model_switcher", "dfw_message_feedback", "data_deletion_enabled", "new_model_switcher_20230512", "log_statsig_events", "beta_features", "plugins_available", "data_export_enabled", "show_existing_user_age_confirmation_modal"},
+				Features: GetFeatures(),
 				Entitlement: NewTempEntitlement{
 					SubscriptionID:        define.GenerateUUID(),
 					HasActiveSubscription: true,
