@@ -47,7 +47,20 @@ var MODEL_TEXT_DAVINCI_002_RENDER_SHA = ModelListItem{
 	MaxTokens:   8191,
 	Title:       "Default (GPT-3.5)",
 	Description: "Our fastest model, great for most everyday tasks.",
-	Tags:        []string{},
+	Tags:        []string{"gpt3.5"},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{3, 5},
+		Speed:       []int{5, 5},
+		Conciseness: []int{2, 5},
+	},
+}
+
+var MODEL_TEXT_DAVINCI_002_RENDER_SHA_MOBILE = ModelListItem{
+	Slug:        "text-davinci-002-render-sha-mobile",
+	MaxTokens:   8191,
+	Title:       "Default (GPT-3.5) (Mobile)",
+	Description: "Our fastest model, great for most everyday tasks.",
+	Tags:        []string{"mobile"},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{3, 5},
 		Speed:       []int{5, 5},
@@ -84,7 +97,7 @@ var MODEL_GPT4 = ModelListItem{
 	MaxTokens:   4095,
 	Title:       "GPT-4",
 	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
-	Tags:        []string{},
+	Tags:        []string{"gpt4"},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{5, 5},
 		Speed:       []int{2, 5},
@@ -93,16 +106,13 @@ var MODEL_GPT4 = ModelListItem{
 }
 
 var MODEL_GPT4_BROWSING = ModelListItem{
-	Slug:        "gpt-4-browsing",
-	MaxTokens:   4095,
-	Title:       "GPT-4 Browsing",
-	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
-	Tags:        []string{"beta"},
-	QualitativeProperties: ModelListQualitativeProperties{
-		Reasoning:   []int{5, 5},
-		Speed:       []int{2, 5},
-		Conciseness: []int{4, 5},
-	},
+	Slug:                  "gpt-4-browsing",
+	MaxTokens:             4095,
+	Title:                 "Web Browsing",
+	Description:           "An experimental model that knows when and how to browse the internet",
+	Tags:                  []string{"gpt4", "beta"},
+	QualitativeProperties: ModelListQualitativeProperties{},
+	EnabledTools:          []string{"tools"},
 }
 
 var MODEL_GPT4_CODE = ModelListItem{
@@ -119,11 +129,21 @@ var MODEL_GPT4_CODE = ModelListItem{
 }
 
 var MODEL_GPT4_PLUGIN = ModelListItem{
-	Slug:        "gpt-4-plugins",
+	Slug:                  "gpt-4-plugins",
+	MaxTokens:             8195,
+	Title:                 "Plugins",
+	Description:           "An experimental model that knows when and how to use plugins",
+	Tags:                  []string{"gpt4", "beta"},
+	QualitativeProperties: ModelListQualitativeProperties{},
+	EnabledTools:          []string{"tools3"},
+}
+
+var MODEL_GPT4_MOBILE = ModelListItem{
+	Slug:        "gpt-4-mobile",
 	MaxTokens:   4095,
-	Title:       "GPT-4 Plugins",
+	Title:       "GPT-4 (Mobile, V2)",
 	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
-	Tags:        []string{"beta"},
+	Tags:        []string{"mobile"},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{5, 5},
 		Speed:       []int{2, 5},
