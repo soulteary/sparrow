@@ -37,6 +37,7 @@ var (
 	ENABLE_OPENAI_API       = GetBool("ENABLE_OPENAI_API", false)                                 // Enable OpenAI 3.5 API
 	ENABLE_OPENAI_API_ONLY  = GetBool("ENABLE_OPENAI_API_ONLY", false)                            // Only Enable the 3.5 model
 	OPENAI_API_KEY          = strings.TrimSpace(os.Getenv("OPENAI_API_KEY"))                      // OpenAI API Key
+	OPENAI_API_BASEURL      = strings.TrimSpace(os.Getenv("OPENAI_API_BASEURL"))                  // Custom OpenAI API BASEURL
 	ENABLE_OPENAI_API_PROXY = GetBool("OPENAI_API_PROXY_ENABLE", false)                           // Enable OpenAI API Proxy
 	OPENAI_API_PROXY_ADDR   = GetHostName("OPENAI_API_PROXY_ADDR", DEFAULT_OPENAI_API_PROXY_ADDR) // OpenAI API Proxy Address
 )
