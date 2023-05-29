@@ -20,6 +20,11 @@ func GetClient() *openai.Client {
 		transport := &http.Transport{Proxy: http.ProxyURL(proxyUrl)}
 		config.HTTPClient = &http.Client{Transport: transport}
 	}
+
+	if define.OPENAI_API_BASEURL != "" {
+		config.BaseURL = define.OPENAI_API_BASEURL
+	}
+
 	return openai.NewClientWithConfig(config)
 }
 
