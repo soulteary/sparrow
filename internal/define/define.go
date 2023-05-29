@@ -60,3 +60,7 @@ var (
 	CLAUDE_API_SECRET  = GetSecret("CLAUDE_API_SECRET", "YOUR_CLAUDE_SECRET")   // Claude API Secret
 	CLAUDE_API_ADDR    = GetHostName("CLAUDE_API_URL", DEFAULT_CLAUDE_API_ADDR) // Claude API URL
 )
+
+var (
+	ENABLE_GITHUB_TOP = GetBool("ENABLE_GITHUB_TOP", false) // Enable Github Top
+)
