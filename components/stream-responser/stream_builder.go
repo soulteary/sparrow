@@ -5,6 +5,7 @@ import (
 
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	FlagStudio "github.com/soulteary/sparrow/connectors/flag-studio"
+	GitHubTop "github.com/soulteary/sparrow/connectors/github-top"
 	OpenaiAPI "github.com/soulteary/sparrow/connectors/openai-api"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
@@ -50,6 +51,11 @@ func StreamBuilder(parentMessageID string, conversationID string, modelSlug stri
 	case datatypes.MODEL_CLAUDE.Slug:
 		if define.ENABLE_CLAUDE {
 			sequences = MakeStreamingMessage(input, modelSlug, conversationID, messageID, mode)
+			quickMode = true
+		}
+	case datatypes.MODEL_GITHUB_TOP.Slug:
+		if define.ENABLE_GITHUB_TOP {
+			sequences = MakeStreamingMessage(GitHubTop.HandleUserPrompt(input), modelSlug, conversationID, messageID, mode)
 			quickMode = true
 		}
 		// case datatypes.MODEL_NO_MODELS.Slug:
