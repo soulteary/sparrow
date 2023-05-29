@@ -248,3 +248,16 @@ var MODEL_CLAUDE = ModelListItem{
 		Conciseness: []int{4, 5},
 	},
 }
+
+var MODEL_GITHUB_TOP = ModelListItem{
+	Slug:        "github-top",
+	MaxTokens:   1024,
+	Title:       "GitHub Top",
+	Description: "GitHub Top is Another demo API example.",
+	Tags:        []string{},
+	QualitativeProperties: ModelListQualitativeProperties{
+		Reasoning:   []int{5, 5},
+		Speed:       []int{3, 5},
+		Conciseness: []int{4, 5},
+	},
+}

@@ -11,6 +11,11 @@ import (
 func GetModels(c *gin.Context) {
 	var modelList []datatypes.ModelListItem
 
+	if define.ENABLE_GITHUB_TOP {
+		model := GetGitHubTopModel()
+		modelList = append(modelList, model...)
+	}
+
 	if define.ENABLE_CLAUDE {
 		model := GetClaudeModel()
 		if define.ENABLE_CLAUDE_ONLY {
