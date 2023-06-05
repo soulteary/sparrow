@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	eb "github.com/soulteary/sparrow/components/event-broker"
+	lcs "github.com/soulteary/sparrow/components/local-conversation-storage"
 	claude "github.com/soulteary/sparrow/connectors/claude"
 	midjourney "github.com/soulteary/sparrow/connectors/mid-journey"
 	"github.com/soulteary/sparrow/internal/api"
@@ -16,6 +17,8 @@ var brokerPool = eb.NewBrokerManager(256)
 
 func main() {
 	fmt.Printf("Sparrow v%s\n", version.Version)
+
+	lcs.InitStorage(define.LOCAL_CONVERSATION_STORAGE_PATH)
 
 	engine := server.SetupEngine()
 	engine.Use(server.Recovery())

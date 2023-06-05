@@ -290,6 +290,42 @@ func TestGetMidJourneySecret(t *testing.T) {
 	}
 }
 
+func TestGetPath(t *testing.T) {
+	tests := []struct {
+		name   string
+		input  string
+		def    string
+		envKey string
+		expect string
+	}{
+		{
+			name:   "empty string",
+			envKey: "empty-key",
+			input:  "",
+			def:    "def",
+			expect: "def",
+		},
+		{
+			name:   "user input string",
+			envKey: "env-key",
+			input:  "abc",
+			def:    "def",
+			expect: "abc",
+		},
+	}
+
+	for _, test := range tests {
+		os.Setenv(test.envKey, test.input)
+		defer os.Unsetenv(test.envKey)
+		t.Run(test.name, func(t *testing.T) {
+			got := define.GetPath(test.envKey, test.def)
+			if got != test.expect {
+				t.Errorf("GetPath(%s, %s) = %s; expect %s", test.envKey, test.def, got, test.expect)
+			}
+		})
+	}
+}
+
 func TestGetRandomNumber(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		randomNumber := define.GetRandomNumber(1, 100)

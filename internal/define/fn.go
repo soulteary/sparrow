@@ -93,6 +93,14 @@ func GetSecret(envKey string, def string) string {
 	return def
 }
 
+func GetPath(envKey string, def string) string {
+	env := strings.ToLower(strings.TrimSpace(os.Getenv(envKey)))
+	if env != "" {
+		return env
+	}
+	return def
+}
+
 func GetRandomNumber(min, max int) int {
 	const fallback = 50
 	n, err := rand.Int(rand.Reader, big.NewInt(int64(max)))

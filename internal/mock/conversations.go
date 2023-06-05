@@ -2,26 +2,35 @@ package mock
 
 import (
 	"fmt"
-	"time"
 
+	lcs "github.com/soulteary/sparrow/components/local-conversation-storage"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
 )
 
-func GetConversationList() datatypes.ConversationsList {
+func GetConversationList(userID string) datatypes.ConversationsList {
 	var items []datatypes.ConversationListItem
 	if !define.ENABLE_HISTORY_LIST {
 		items = []datatypes.ConversationListItem{}
 	} else {
-		for i := 10; i < 30; i++ {
-			items = append(items, datatypes.ConversationListItem{
-				ID:          define.GenerateUUID(),
-				Title:       fmt.Sprintf("会话名称 %d", i-10+1),
-				CreateTime:  time.Now(),
-				UpdateTime:  time.Now(),
-				Mapping:     nil,
-				CurrentNode: nil,
-			})
+		conversationIDs := lcs.GetConversationListByUserID(userID)
+		if len(conversationIDs) == 0 {
+			items = []datatypes.ConversationListItem{}
+		} else {
+			for i, conversationID := range conversationIDs {
+				conversationInfo := lcs.GetConversationInfoByID(userID, conversationID)
+
+				if conversationInfo.ID == conversationID {
+					items = append(items, datatypes.ConversationListItem{
+						ID:          conversationID,
+						Title:       fmt.Sprintf("Conversation %d", i),
+						CreateTime:  conversationInfo.CreateTime,
+						Mapping:     nil,
+						CurrentNode: nil,
+					})
+				}
+
+			}
 		}
 	}
 
@@ -32,4 +41,11 @@ func GetConversationList() datatypes.ConversationsList {
 		HasMissingConversations: false,
 		Items:                   items,
 	}
+}
+
+func ClearConversationList(userID string) datatypes.ConversationsList {
+	if define.ENABLE_HISTORY_LIST {
+		lcs.ClearConversationListByUserID(userID)
+	}
+	return GetConversationList(userID)
 }

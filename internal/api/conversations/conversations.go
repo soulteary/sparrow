@@ -1,6 +1,7 @@
 package conversations
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,5 +9,23 @@ import (
 )
 
 func GetConversationList(c *gin.Context) {
-	c.JSON(http.StatusOK, mock.GetConversationList())
+	// TODO bind user
+	userID := c.Request.Header.Get("x-user-id")
+	if userID != "" {
+		fmt.Println("[user]", userID)
+	} else {
+		userID = "anonymous"
+	}
+	c.JSON(http.StatusOK, mock.GetConversationList(userID))
+}
+
+func ClearConversationList(c *gin.Context) {
+	// TODO bind user
+	userID := c.Request.Header.Get("x-user-id")
+	if userID != "" {
+		fmt.Println("[user]", userID)
+	} else {
+		userID = "anonymous"
+	}
+	c.JSON(http.StatusOK, mock.ClearConversationList(userID))
 }

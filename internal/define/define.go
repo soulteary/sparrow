@@ -10,9 +10,10 @@ var (
 )
 
 var (
-	APP_PORT            = GetPortString("APP_PORT", DEFAULT_APP_PORT)
-	WEB_CLIENT_HOSTNAME = GetHostName("WEB_CLIENT_HOSTNAME", DEFAULT_WEB_CLIENT_HOSTNAME)
-	RESPONSE_SPEED      = GetGenerateSpeed("RESPONSE_SPEED", 10)
+	APP_PORT                        = GetPortString("APP_PORT", DEFAULT_APP_PORT)
+	WEB_CLIENT_HOSTNAME             = GetHostName("WEB_CLIENT_HOSTNAME", DEFAULT_WEB_CLIENT_HOSTNAME)
+	RESPONSE_SPEED                  = GetGenerateSpeed("RESPONSE_SPEED", 10)
+	LOCAL_CONVERSATION_STORAGE_PATH = GetPath("LOCAL_CONVERSATION_STORAGE_PATH", "./data/datasets")
 
 	ENABLE_HISTORY_LIST      = GetBool("ENABLE_HISTORY_LIST", false)      // Enable history list
 	ENABLE_I18N              = GetBool("ENABLE_I18N", false)              // Enable i18n

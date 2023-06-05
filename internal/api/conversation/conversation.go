@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	eb "github.com/soulteary/sparrow/components/event-broker"
+	lcs "github.com/soulteary/sparrow/components/local-conversation-storage"
 	sr "github.com/soulteary/sparrow/components/stream-responser"
 	claude "github.com/soulteary/sparrow/connectors/claude"
 	midjourney "github.com/soulteary/sparrow/connectors/mid-journey"
@@ -41,10 +42,19 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			return
 		}
 
+		if data.ConversationID == "" {
+			data.ConversationID = data.Messages[0].ID
+		}
+		fmt.Println("[conversation]", data.ParentMessageID, data.ConversationID)
+		c.Request.Header.Set("x-parent-message-id", data.ParentMessageID)
+		c.Request.Header.Set("x-conversation-message-id", data.ConversationID)
+
 		// TODO bind user
 		userID := c.Request.Header.Get("x-user-id")
 		if userID != "" {
 			fmt.Println("[user]", userID)
+		} else {
+			userID = "anonymous"
 		}
 
 		broker := brokerPool.GetBroker(userID, data.ParentMessageID, data.ConversationID)
@@ -58,8 +68,14 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			fmt.Println()
 		}
 
+		isRootMessage := lcs.IsParentMessageExist(userID, data.ParentMessageID)
+		if isRootMessage {
+			rootMessageID := lcs.SetRootMessage(userID, data.ParentMessageID, data.ConversationID, userPrompt)
+			fmt.Println("create root id", rootMessageID)
+		}
+		lcs.SetMessage(userID, data.ParentMessageID, data.ConversationID, userPrompt)
+
 		messageChan := make(eb.EventChan)
-		c.Request.Header.Set("x-message-id", data.ParentMessageID)
 
 		switch userModel {
 		case datatypes.MODEL_MIDJOURNEY.Slug:
@@ -68,7 +84,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			broker.Serve(c, messageChan)
 			return
 		case datatypes.MODEL_FLAGSTUDIO.Slug:
-			streamGenerated := sr.StreamBuilder(data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			streamGenerated := sr.StreamBuilder(userID, data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}
@@ -79,7 +95,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			broker.Serve(c, messageChan)
 			return
 		default:
-			streamGenerated := sr.StreamBuilder(data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			streamGenerated := sr.StreamBuilder(userID, data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}
