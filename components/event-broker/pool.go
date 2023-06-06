@@ -4,8 +4,8 @@ import "fmt"
 
 type Pool struct {
 	ID              int
-	ParentMessageID string
 	ConversationID  string
+	ParentMessageID string
 	User            string
 	Busy            bool
 	Broker          Broker
@@ -26,7 +26,7 @@ func NewBrokerManager(size int) *BrokersPool {
 	return &BrokersPool{Pool: &PoolCache}
 }
 
-func (broker *BrokersPool) GetBroker(user string, ParentMessageID string, ConversationID string) *Broker {
+func (broker *BrokersPool) GetBroker(user string, ConversationID string, ParentMessageID string) *Broker {
 	if ParentMessageID != "" {
 		for _, pool := range PoolCache {
 			if pool.Busy {

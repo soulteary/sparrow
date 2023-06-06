@@ -10,8 +10,8 @@ import (
 )
 
 type Event struct {
-	ParentMessageID string
 	ConversationID  string
+	ParentMessageID string
 	Payload         any
 }
 
@@ -57,10 +57,10 @@ func (broker *Broker) Listen() {
 }
 
 func (broker *Broker) Serve(c *gin.Context, messageChan EventChan) {
+	conversationID := c.Request.Header.Get("x-conversation-id")
 	parentMessageID := c.Request.Header.Get("x-parent-message-id")
-	conversationID := c.Request.Header.Get("x-conversation-message-id")
 
-	log.Println("Requested topic:", parentMessageID, conversationID)
+	log.Println("Requested topic:", conversationID, parentMessageID)
 
 	c.Header("Content-Type", "text/event-stream; charset=utf-8")
 	c.Header("Cache-Control", "no-cache")
@@ -76,7 +76,7 @@ func (broker *Broker) Serve(c *gin.Context, messageChan EventChan) {
 
 	c.Stream(func(w io.Writer) bool {
 		event := <-messageChan
-		if event.ParentMessageID != parentMessageID || event.ConversationID != conversationID {
+		if event.ConversationID != conversationID || event.ParentMessageID != parentMessageID {
 			return false
 		}
 		if IsLastMessage(event.Payload) {

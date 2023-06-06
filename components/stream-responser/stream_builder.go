@@ -20,7 +20,7 @@ var (
 	MSG_STATUS_DONE      StreamMessageMode = 2
 )
 
-func StreamBuilder(userID string, parentMessageID string, conversationID string, modelSlug string, broker *eb.Broker, input string, mode StreamMessageMode) bool {
+func StreamBuilder(userID string, conversationID string, parentMessageID string, modelSlug string, broker *eb.Broker, input string, mode StreamMessageMode) bool {
 	messageID, modelSlug := GetBuilderParams(modelSlug)
 	var sequences []string
 	var quickMode bool

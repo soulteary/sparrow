@@ -46,8 +46,8 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			data.ConversationID = data.Messages[0].ID
 		}
 		fmt.Println("[conversation]", data.ParentMessageID, data.ConversationID)
+		c.Request.Header.Set("x-conversation-id", data.ConversationID)
 		c.Request.Header.Set("x-parent-message-id", data.ParentMessageID)
-		c.Request.Header.Set("x-conversation-message-id", data.ConversationID)
 
 		// TODO bind user
 		userID := c.Request.Header.Get("x-user-id")
@@ -57,7 +57,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			userID = "anonymous"
 		}
 
-		broker := brokerPool.GetBroker(userID, data.ParentMessageID, data.ConversationID)
+		broker := brokerPool.GetBroker(userID, data.ConversationID, data.ParentMessageID)
 		userModel := strings.TrimSpace(strings.ToLower(data.Model))
 		userPrompt := strings.TrimSpace(data.Messages[0].Content.Parts[0])
 
@@ -84,7 +84,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			broker.Serve(c, messageChan)
 			return
 		case datatypes.MODEL_FLAGSTUDIO.Slug:
-			streamGenerated := sr.StreamBuilder(userID, data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			streamGenerated := sr.StreamBuilder(userID, data.ConversationID, data.ParentMessageID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}
@@ -95,7 +95,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			broker.Serve(c, messageChan)
 			return
 		default:
-			streamGenerated := sr.StreamBuilder(userID, data.ParentMessageID, data.ConversationID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			streamGenerated := sr.StreamBuilder(userID, data.ConversationID, data.ParentMessageID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}

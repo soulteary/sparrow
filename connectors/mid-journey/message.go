@@ -81,16 +81,16 @@ func FnReceiver() func(err error, p []byte, brokerPool *eb.BrokersPool) {
 		modelSlug := "mid-journey"
 
 		user := "user"
-		broker := brokerPool.GetBroker("user", parentMessageID, conversationID)
+		broker := brokerPool.GetBroker("user", conversationID, parentMessageID)
 		if broker == nil {
 			fmt.Println("Unable to find Broker by ParentMessageID", parentMessageID)
 			return
 		}
 
 		if !done {
-			sr.StreamBuilder(user, parentMessageID, conversationID, modelSlug, broker, response, sr.MSG_STATUS_CONTINUE)
+			sr.StreamBuilder(user, conversationID, parentMessageID, modelSlug, broker, response, sr.MSG_STATUS_CONTINUE)
 		} else {
-			sr.StreamBuilder(user, parentMessageID, conversationID, modelSlug, broker, response, sr.MSG_STATUS_DONE)
+			sr.StreamBuilder(user, conversationID, parentMessageID, modelSlug, broker, response, sr.MSG_STATUS_DONE)
 		}
 	}
 }
