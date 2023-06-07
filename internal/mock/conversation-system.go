@@ -5,8 +5,12 @@ import (
 	"github.com/soulteary/sparrow/internal/define"
 )
 
-func createSystemConversation(createTime int64) (conversation datatypes.ConversationHistory) {
-	conversation.ID = define.GenerateUUID()
+func createSystemConversation(createTime int64, uuid string) (conversation datatypes.ConversationHistory) {
+	if uuid == "" {
+		conversation.ID = define.GenerateUUID()
+	} else {
+		conversation.ID = uuid
+	}
 	conversation.Parent = ""
 	conversation.Children = []string{}
 

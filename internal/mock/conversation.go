@@ -3,16 +3,72 @@ package mock
 import (
 	"time"
 
+	lcs "github.com/soulteary/sparrow/components/local-conversation-storage"
 	"github.com/soulteary/sparrow/internal/datatypes"
 	"github.com/soulteary/sparrow/internal/define"
 )
 
-func GetConversationById(id string) any {
-	// random response conversation type
-	if define.GetRandomNumber(1, 2) == 1 {
-		return GeneralConversationHistory(id)
-	} else {
-		return PluginConversationHistory(id)
+func GetConversationById(userID, conversationID string) any {
+	if define.DEV_MODE {
+		// random response conversation type
+		if define.GetRandomNumber(1, 2) == 1 {
+			return GeneralConversationHistory(conversationID)
+		} else {
+			return PluginConversationHistory(conversationID)
+		}
+	}
+	return GetConversationHistory(userID, conversationID)
+}
+
+func GetConversationHistory(userID, conversationID string) datatypes.GeneralConversationHistory {
+	var conversations []*datatypes.ConversationHistory
+
+	firstMessage := lcs.GetConversationInfoByID(userID, conversationID)
+	systemConversation := createSystemConversation(firstMessage.CreateTime.Unix(), firstMessage.ID)
+	conversations = append(conversations, &systemConversation)
+
+	secondMessage, _ := lcs.GetConversationDataByMessageID(firstMessage.Children[0])
+	frontEndMessage := createMapMessage(secondMessage.ID)
+	linkMessages(&frontEndMessage, &systemConversation)
+	conversations = append(conversations, &frontEndMessage)
+
+	var prevMessage datatypes.ConversationHistory
+	prevMessage = systemConversation
+	messageID := secondMessage.Children[0]
+
+	for {
+		var newMessage datatypes.ConversationHistory
+		message, _ := lcs.GetConversationDataByMessageID(messageID)
+		if message.IsUser {
+			newMessage = createUserMessage(message.CreateTime.Unix(), message.ID, message.Content)
+			linkMessages(&prevMessage, &newMessage)
+			conversations = append(conversations, &newMessage)
+		} else {
+			newMessage = createAssistantMessage(message.CreateTime.Unix(), message.ID, message.Content)
+			linkMessages(&prevMessage, &newMessage)
+			conversations = append(conversations, &newMessage)
+		}
+		if message.Children != nil && len(message.Children) > 0 {
+			messageID = message.Children[0]
+			prevMessage = newMessage
+		} else {
+			break
+		}
+	}
+
+	mapping := make(map[string]datatypes.ConversationHistory)
+	for _, conversation := range conversations {
+		mapping[conversation.ID] = *conversation
+	}
+
+	return datatypes.GeneralConversationHistory{
+		// TODO get conversation title
+		Title:             conversations[len(conversations)-1].ID,
+		CreateTime:        float64(time.Now().Unix()),
+		UpdateTime:        float64(time.Now().Unix()),
+		ModerationResults: []string{},
+		CurrentNode:       conversations[len(conversations)-1].ID,
+		Mapping:           mapping,
 	}
 }
 
@@ -21,7 +77,7 @@ func GeneralConversationHistory(requestID string) datatypes.GeneralConversationH
 
 	// message 1
 	now := time.Now().Unix()
-	systemConversation := createSystemConversation(now + 1)
+	systemConversation := createSystemConversation(now+1, "")
 	conversations = append(conversations, &systemConversation)
 
 	// message 2
@@ -30,24 +86,24 @@ func GeneralConversationHistory(requestID string) datatypes.GeneralConversationH
 	conversations = append(conversations, &frontEndMessage)
 
 	// message 3
-	userMessage := createUserMessage(now+2, "用户输入的内容")
+	userMessage := createUserMessage(now+2, "", "用户输入的内容")
 	linkMessages(&systemConversation, &userMessage)
 	conversations = append(conversations, &userMessage)
 
 	// message 4
 	reply := "\n\n这里是来自接口的内容。 ![](https://images.openai.com/blob/8d14e8f0-e267-4b8b-a9f2-a79120808f5a/chatgpt.jpg?trim=0%2C0%2C0%2C0)"
-	replyMessage := createAssistantMessage(now+3, reply)
+	replyMessage := createAssistantMessage(now+3, "", reply)
 	linkMessages(&userMessage, &replyMessage)
 	conversations = append(conversations, &replyMessage)
 
 	// message 5
-	userMessage2 := createUserMessage(now+4, "还有什么？")
+	userMessage2 := createUserMessage(now+4, "", "还有什么？")
 	linkMessages(&replyMessage, &userMessage2)
 	conversations = append(conversations, &userMessage2)
 
 	// message 6
 	reply = "接口返回的更多内容"
-	replyMessage2 := createAssistantMessage(now+5, reply)
+	replyMessage2 := createAssistantMessage(now+5, "", reply)
 
 	linkMessages(&userMessage2, &replyMessage2)
 	conversations = append(conversations, &replyMessage2)
@@ -83,7 +139,7 @@ func PluginConversationHistory(requestID string) datatypes.PluginConversationHis
 	conversations = append(conversations, &frontEndMessage)
 
 	// message 3
-	userMessage := createUserMessage(now+2, "随便聊点啥")
+	userMessage := createUserMessage(now+2, "", "随便聊点啥")
 	linkMessages(&systemConversation, &userMessage)
 	conversations = append(conversations, &userMessage)
 

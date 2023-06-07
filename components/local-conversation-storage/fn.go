@@ -45,7 +45,7 @@ func updateConversationByUserID(uid UserID, conversations []string) {
 	Conversations[uid] = conversations
 }
 
-func getConversationDataByMessageID(messageID string) (Message, error) {
+func GetConversationDataByMessageID(messageID string) (Message, error) {
 	data, exist := Data[messageID]
 	if !exist {
 		return Message{}, errors.New("message not found")

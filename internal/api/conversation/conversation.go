@@ -21,7 +21,16 @@ func GetConversationById(c *gin.Context) {
 		c.JSON(http.StatusForbidden, "History needs to be enabled")
 	} else {
 		id := c.Param("id")
-		c.JSON(http.StatusOK, mock.GetConversationById(id))
+
+		// TODO bind user
+		userID := c.Request.Header.Get("x-user-id")
+		if userID != "" {
+			fmt.Println("[user]", userID)
+		} else {
+			userID = define.DEFAULT_USER_NAME
+		}
+
+		c.JSON(http.StatusOK, mock.GetConversationById(userID, id))
 	}
 }
 

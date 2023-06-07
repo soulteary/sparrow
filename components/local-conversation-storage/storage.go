@@ -54,7 +54,7 @@ func GetConversationInfoByID(userID string, conversationID string) (conversation
 	if !exist {
 		return conversationInfo
 	}
-	conversationInfo, err := getConversationDataByMessageID(messageID)
+	conversationInfo, err := GetConversationDataByMessageID(messageID)
 	if err != nil {
 		return conversationInfo
 	}
@@ -106,12 +106,12 @@ func SetRootMessage(userID string, parentMessageID string, messageID string, con
 func LinkMessageToOtherAsChild(userID string, parentMessageID string, messageID string) {
 	updateMessageParentRefs(UserID(userID), messageID, parentMessageID)
 
-	originMessage, err := getConversationDataByMessageID(messageID)
+	originMessage, err := GetConversationDataByMessageID(messageID)
 	if err != nil {
 		return
 	}
 
-	originParentMessage, err := getConversationDataByMessageID(parentMessageID)
+	originParentMessage, err := GetConversationDataByMessageID(parentMessageID)
 	if err != nil {
 		return
 	}
@@ -128,7 +128,7 @@ func LinkMessageToOtherAsChild(userID string, parentMessageID string, messageID 
 }
 
 func SetMessage(userID string, parentMessageID string, messageID string, content string, isUser bool) {
-	message, err := getConversationDataByMessageID(messageID)
+	message, err := GetConversationDataByMessageID(messageID)
 	if err != nil {
 		message = Message{
 			ID:         messageID,
@@ -151,5 +151,7 @@ func SetMessage(userID string, parentMessageID string, messageID string, content
 	updateConversationDataByMessageID(messageID, message)
 	LinkMessageToOtherAsChild(userID, parentMessageID, messageID)
 
-	Debug(uid)
+	if define.DEV_MODE {
+		Debug(uid)
+	}
 }
