@@ -35,6 +35,28 @@ func GetConversationById(c *gin.Context) {
 }
 
 func UpdateConversation(c *gin.Context) {
+	type RequestBody struct {
+		IsVisible bool `json:"is_visible"`
+	}
+	var requestBody RequestBody
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !requestBody.IsVisible {
+		// TODO bind user
+		userID := c.Request.Header.Get("x-user-id")
+		if userID != "" {
+			fmt.Println("[user]", userID)
+		} else {
+			userID = define.DEFAULT_USER_NAME
+		}
+
+		id := c.Param("id")
+		mock.ClearConversationByID(userID, id)
+	}
+
 	c.JSON(http.StatusOK, datatypes.UpdateConversationResponse{Success: true})
 }
 

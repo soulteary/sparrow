@@ -47,6 +47,21 @@ func ClearConversationListByUserID(userID string) {
 	updateRefsByUserID(uid, make(LinkReferences))
 }
 
+// Clear the message id of the user
+func ClearConversationIdByUserID(userID string, conversationID string) {
+	uid := UserID(userID)
+	refs := getRefsByUserID(uid)
+	filteredRefs := make(LinkReferences)
+	for _, refID := range refs {
+		if refID == conversationID {
+			updateConversationDataByMessageID(refID, Message{})
+		} else {
+			filteredRefs[refID] = refs[refID]
+		}
+	}
+	updateRefsByUserID(uid, filteredRefs)
+}
+
 // Get the conversation info by conversation id
 func GetConversationInfoByID(userID string, conversationID string) (conversationInfo Message) {
 	refs := getRefsByUserID(UserID(userID))

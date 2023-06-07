@@ -49,3 +49,9 @@ func ClearConversationList(userID string) datatypes.ConversationsList {
 	}
 	return GetConversationList(userID)
 }
+
+func ClearConversationByID(userID string, conversationID string) {
+	if define.ENABLE_HISTORY_LIST {
+		lcs.ClearConversationIdByUserID(userID, conversationID)
+	}
+}
