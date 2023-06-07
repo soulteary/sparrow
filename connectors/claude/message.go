@@ -88,10 +88,12 @@ func FnReceiver() func(err error, p []byte, brokerPool *eb.BrokersPool) {
 			return
 		}
 
+		nextMessageID := define.GenerateUUID()
+		// TODO bind message id
 		if !done {
-			sr.StreamBuilder(user, conversationID, parentMessageID, modelSlug, broker, response, sr.MSG_STATUS_CONTINUE)
+			sr.StreamBuilder(user, conversationID, parentMessageID, conversationID, nextMessageID, modelSlug, broker, response, sr.MSG_STATUS_CONTINUE)
 		} else {
-			sr.StreamBuilder(user, conversationID, parentMessageID, modelSlug, broker, response, sr.MSG_STATUS_DONE)
+			sr.StreamBuilder(user, conversationID, parentMessageID, conversationID, nextMessageID, modelSlug, broker, response, sr.MSG_STATUS_DONE)
 		}
 	}
 }

@@ -7,57 +7,57 @@ import (
 	"github.com/soulteary/sparrow/internal/define"
 )
 
-func GetRefsByUserID(uid UserID) LinkReferences {
-	refs, ok := Refs[uid]
-	if refs == nil || !ok {
+func getRefsByUserID(uid UserID) LinkReferences {
+	refs, exist := Refs[uid]
+	if refs == nil || !exist {
 		return make(LinkReferences)
 	}
 	return refs
 }
 
-func UpdateRefsByUserID(uid UserID, refs LinkReferences) {
+func updateRefsByUserID(uid UserID, refs LinkReferences) {
 	Refs[uid] = refs
 }
 
-func GetRefsToParent(refs LinkReferences, messageID string) (string, error) {
-	id, ok := refs[messageID]
-	if !ok {
-		return "", errors.New("message not found")
+func getParentRef(refs LinkReferences, messageID string) (ref string, exist bool) {
+	ref, exist = refs[messageID]
+	if !exist {
+		return "", false
 	}
-	return id, nil
+	return ref, true
 }
 
-func UpdateMessageParentRefs(uid UserID, messageID string, parentMessageID string) {
-	refs := GetRefsByUserID(uid)
+func updateMessageParentRefs(uid UserID, messageID string, parentMessageID string) {
+	refs := getRefsByUserID(uid)
 	refs[messageID] = parentMessageID
-	UpdateRefsByUserID(uid, refs)
+	updateRefsByUserID(uid, refs)
 }
 
-func GetConversationsByUserID(uid UserID) []string {
-	conversations, ok := Conversations[uid]
-	if conversations == nil || !ok {
+func getConversationsByUserID(uid UserID) []string {
+	conversations, exist := Conversations[uid]
+	if conversations == nil || !exist {
 		return make([]string, 0)
 	}
 	return conversations
 }
 
-func UpdateConversationByUserID(uid UserID, conversations []string) {
+func updateConversationByUserID(uid UserID, conversations []string) {
 	Conversations[uid] = conversations
 }
 
-func ConversationDataByMessageID(messageID string) (Message, error) {
-	data, ok := Data[messageID]
-	if !ok {
+func getConversationDataByMessageID(messageID string) (Message, error) {
+	data, exist := Data[messageID]
+	if !exist {
 		return Message{}, errors.New("message not found")
 	}
 	return data, nil
 }
 
-func UpdateConversationDataByMessageID(messageID string, data Message) {
+func updateConversationDataByMessageID(messageID string, data Message) {
 	Data[messageID] = data
 }
 
-func StrInArray(strs []string, s string) bool {
+func IsStrInArray(strs []string, s string) bool {
 	exist := false
 	for _, v := range strs {
 		if v == s {
@@ -70,6 +70,5 @@ func StrInArray(strs []string, s string) bool {
 
 func Debug(uid UserID) {
 	ret, _ := define.MakeJSON(Data)
-	fmt.Println(uid)
 	fmt.Println(ret)
 }

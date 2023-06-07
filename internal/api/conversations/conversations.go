@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/soulteary/sparrow/internal/define"
 	"github.com/soulteary/sparrow/internal/mock"
 )
 
@@ -14,7 +15,7 @@ func GetConversationList(c *gin.Context) {
 	if userID != "" {
 		fmt.Println("[user]", userID)
 	} else {
-		userID = "anonymous"
+		userID = define.DEFAULT_USER_NAME
 	}
 	c.JSON(http.StatusOK, mock.GetConversationList(userID))
 }
@@ -25,7 +26,7 @@ func ClearConversationList(c *gin.Context) {
 	if userID != "" {
 		fmt.Println("[user]", userID)
 	} else {
-		userID = "anonymous"
+		userID = define.DEFAULT_USER_NAME
 	}
 	c.JSON(http.StatusOK, mock.ClearConversationList(userID))
 }

@@ -43,7 +43,11 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 		}
 
 		if data.ConversationID == "" {
-			data.ConversationID = data.Messages[0].ID
+			if data.Action == "next" && len(data.Messages) == 1 && strings.EqualFold(data.Messages[0].Author.Role, "user") {
+				data.ConversationID = data.ParentMessageID
+			} else {
+				fmt.Println("unhandle missing conversation id")
+			}
 		}
 		fmt.Println("[conversation]", data.ParentMessageID, data.ConversationID)
 		c.Request.Header.Set("x-conversation-id", data.ConversationID)
@@ -54,12 +58,15 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 		if userID != "" {
 			fmt.Println("[user]", userID)
 		} else {
-			userID = "anonymous"
+			userID = define.DEFAULT_USER_NAME
 		}
 
 		broker := brokerPool.GetBroker(userID, data.ConversationID, data.ParentMessageID)
 		userModel := strings.TrimSpace(strings.ToLower(data.Model))
 		userPrompt := strings.TrimSpace(data.Messages[0].Content.Parts[0])
+		parentMessageID := data.ParentMessageID
+		messageID := define.GenerateUUID()
+		nextMessageID := data.Messages[0].ID
 
 		if define.DEV_MODE {
 			fmt.Println("[user request]", "Model:", userModel)
@@ -68,34 +75,34 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 			fmt.Println()
 		}
 
-		isRootMessage := lcs.IsParentMessageExist(userID, data.ParentMessageID)
-		if isRootMessage {
-			rootMessageID := lcs.SetRootMessage(userID, data.ParentMessageID, data.ConversationID, userPrompt)
-			fmt.Println("create root id", rootMessageID)
+		if lcs.IsRootMessage(userID, data.ConversationID, parentMessageID) {
+			lcs.SetRootMessage(userID, parentMessageID, messageID, userPrompt)
+		} else {
+			lcs.SetMessage(userID, parentMessageID, messageID, userPrompt, true)
 		}
-		lcs.SetMessage(userID, data.ParentMessageID, data.ConversationID, userPrompt)
+		lcs.SetMessage(userID, messageID, nextMessageID, userPrompt, true)
 
 		messageChan := make(eb.EventChan)
 
 		switch userModel {
 		case datatypes.MODEL_MIDJOURNEY.Slug:
-			message := []byte(fmt.Sprintf("%s\n%s", data.ParentMessageID, userPrompt))
+			message := []byte(fmt.Sprintf("%s\n%s", parentMessageID, userPrompt))
 			midjourney.PostMessage(midjourney.GetConn(), message)
 			broker.Serve(c, messageChan)
 			return
 		case datatypes.MODEL_FLAGSTUDIO.Slug:
-			streamGenerated := sr.StreamBuilder(userID, data.ConversationID, data.ParentMessageID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			streamGenerated := sr.StreamBuilder(userID, data.ConversationID, parentMessageID, messageID, nextMessageID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}
 			return
 		case datatypes.MODEL_CLAUDE.Slug:
-			message := []byte(fmt.Sprintf("%s\n%s", data.ParentMessageID, userPrompt))
-			midjourney.PostMessage(claude.GetConn(), message)
+			message := []byte(fmt.Sprintf("%s\n%s", parentMessageID, userPrompt))
+			claude.PostMessage(claude.GetConn(), message)
 			broker.Serve(c, messageChan)
 			return
 		default:
-			streamGenerated := sr.StreamBuilder(userID, data.ConversationID, data.ParentMessageID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
+			streamGenerated := sr.StreamBuilder(userID, data.ConversationID, parentMessageID, messageID, nextMessageID, userModel, broker, userPrompt, sr.MSG_STATUS_AUTO_MODE)
 			if streamGenerated {
 				broker.Serve(c, messageChan)
 			}

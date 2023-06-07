@@ -9,4 +9,5 @@ const (
 	DEFAULT_OPENAI_API_PROXY_ADDR = ""                       // OpenAI API Proxy Address
 	DEFAULT_MIDJOURNEY_API_ADDR   = "ws://localhost:8092/ws" // Midjourney API URL
 	DEFAULT_CLAUDE_API_ADDR       = "ws://localhost:8093/ws" // Claude API URL
+	DEFAULT_USER_NAME             = "anonymous"              // Default user name
 )

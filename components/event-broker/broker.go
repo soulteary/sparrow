@@ -60,8 +60,6 @@ func (broker *Broker) Serve(c *gin.Context, messageChan EventChan) {
 	conversationID := c.Request.Header.Get("x-conversation-id")
 	parentMessageID := c.Request.Header.Get("x-parent-message-id")
 
-	log.Println("Requested topic:", conversationID, parentMessageID)
-
 	c.Header("Content-Type", "text/event-stream; charset=utf-8")
 	c.Header("Cache-Control", "no-cache")
 	c.Header("Connection", "keep-alive")

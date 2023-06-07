@@ -41,7 +41,7 @@ type ConversationMessage struct {
 // update date to official api, 2023.03.02
 type PostConversationMessage struct {
 	ID         string                `json:"id"`
-	Author     any                   `json:"author"`
+	Author     GeneralMessageAuthor  `json:"author"`
 	CreateTime float64               `json:"create_time"`
 	UpdateTime float64               `json:"update_time,omitempty"`
 	Content    GeneralMessageContent `json:"content"`

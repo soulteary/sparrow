@@ -11,47 +11,50 @@ func InitStorage(filename string) {
 	os.MkdirAll(filename, os.ModePerm)
 }
 
-// Determine whether the parent message exists
-func IsParentMessageExist(userID string, parentMessageID string) bool {
-	refs := GetRefsByUserID(UserID(userID))
-	_, err := GetRefsToParent(refs, parentMessageID)
-	return err != nil
+// Determine whether the message is the root message
+func IsRootMessage(userID string, conversationID string, parentMessageID string) bool {
+	refs := getRefsByUserID(UserID(userID))
+	_, exist := getParentRef(refs, parentMessageID)
+	if !exist && conversationID == parentMessageID {
+		return true
+	}
+	return false
 }
 
 // Update the message to the message list
-func AddConversationToUserConversationList(userID string, conversationID string) {
+func addConversationToUserConversationList(userID string, conversationID string) {
 	uid := UserID(userID)
-	conversations := GetConversationsByUserID(uid)
-	if !StrInArray(conversations, conversationID) {
+	conversations := getConversationsByUserID(uid)
+	if !IsStrInArray(conversations, conversationID) {
 		conversations = append(conversations, conversationID)
 	}
-	UpdateConversationByUserID(uid, conversations)
+	updateConversationByUserID(uid, conversations)
 }
 
 // Get the message list of the user
 func GetConversationListByUserID(userID string) (conversations []string) {
-	return GetConversationsByUserID(UserID(userID))
+	return getConversationsByUserID(UserID(userID))
 }
 
 // Clear the message list of the user
 func ClearConversationListByUserID(userID string) {
 	uid := UserID(userID)
-	UpdateConversationByUserID(uid, make([]string, 0))
-	refs := GetRefsByUserID(uid)
+	updateConversationByUserID(uid, make([]string, 0))
+	refs := getRefsByUserID(uid)
 	for _, refID := range refs {
-		UpdateConversationDataByMessageID(refID, Message{})
+		updateConversationDataByMessageID(refID, Message{})
 	}
-	UpdateRefsByUserID(uid, make(LinkReferences))
+	updateRefsByUserID(uid, make(LinkReferences))
 }
 
 // Get the conversation info by conversation id
 func GetConversationInfoByID(userID string, conversationID string) (conversationInfo Message) {
-	refs := GetRefsByUserID(UserID(userID))
-	messageID, err := GetRefsToParent(refs, conversationID)
-	if err != nil {
+	refs := getRefsByUserID(UserID(userID))
+	messageID, exist := getParentRef(refs, conversationID)
+	if !exist {
 		return conversationInfo
 	}
-	conversationInfo, err = ConversationDataByMessageID(messageID)
+	conversationInfo, err := getConversationDataByMessageID(messageID)
 	if err != nil {
 		return conversationInfo
 	}
@@ -61,41 +64,39 @@ func GetConversationInfoByID(userID string, conversationID string) (conversation
 // Create root message and return the root message id
 func CreateRootMessages(userID string, childID string) (rootMessageID string) {
 	rootMessageID = define.GenerateUUID()
-	UpdateConversationDataByMessageID(rootMessageID, Message{
+	updateConversationDataByMessageID(rootMessageID, Message{
 		ID:         rootMessageID,
 		Children:   []string{childID},
 		Content:    "Root Message",
 		CreateTime: time.Now(),
 	})
-	UpdateMessageParentRefs(UserID(userID), rootMessageID, rootMessageID)
+	updateMessageParentRefs(UserID(userID), rootMessageID, rootMessageID)
 	return rootMessageID
 }
 
 // Set the message as roote message
 func SetRootMessage(userID string, parentMessageID string, messageID string, content string) (rootMessageID string) {
 	rootMessageID = CreateRootMessages(userID, parentMessageID)
-	AddConversationToUserConversationList(userID, rootMessageID)
+	addConversationToUserConversationList(userID, rootMessageID)
 
 	uid := UserID(userID)
-	refs := GetRefsByUserID(uid)
-	refs[messageID] = parentMessageID
-	UpdateRefsByUserID(uid, refs)
+	updateMessageParentRefs(uid, messageID, parentMessageID)
 
-	UpdateConversationDataByMessageID(parentMessageID, Message{
+	updateConversationDataByMessageID(parentMessageID, Message{
 		ID:         parentMessageID,
 		Parent:     rootMessageID,
 		Children:   []string{messageID},
-		Content:    content,
 		CreateTime: time.Now(),
 	})
 	LinkMessageToOtherAsChild(userID, rootMessageID, parentMessageID)
 
-	UpdateConversationDataByMessageID(messageID, Message{
+	updateConversationDataByMessageID(messageID, Message{
 		ID:         messageID,
 		Parent:     parentMessageID,
 		Children:   []string{},
 		Content:    content,
 		CreateTime: time.Now(),
+		IsUser:     true,
 	})
 	LinkMessageToOtherAsChild(userID, parentMessageID, messageID)
 	return rootMessageID
@@ -103,51 +104,52 @@ func SetRootMessage(userID string, parentMessageID string, messageID string, con
 
 // Link a message to other message as child
 func LinkMessageToOtherAsChild(userID string, parentMessageID string, messageID string) {
-	refs := GetRefsByUserID(UserID(userID))
-	refs[messageID] = parentMessageID
-	UpdateRefsByUserID(UserID(userID), refs)
+	updateMessageParentRefs(UserID(userID), messageID, parentMessageID)
 
-	originMessage, err := ConversationDataByMessageID(messageID)
+	originMessage, err := getConversationDataByMessageID(messageID)
 	if err != nil {
 		return
 	}
 
-	originParentMessage, err := ConversationDataByMessageID(parentMessageID)
+	originParentMessage, err := getConversationDataByMessageID(parentMessageID)
 	if err != nil {
 		return
 	}
 
 	message := originMessage
 	message.Parent = parentMessageID
-	UpdateConversationDataByMessageID(messageID, message)
+	updateConversationDataByMessageID(messageID, message)
 
 	parentMessage := originParentMessage
-	if !StrInArray(parentMessage.Children, messageID) {
+	if !IsStrInArray(parentMessage.Children, messageID) {
 		parentMessage.Children = append(parentMessage.Children, messageID)
 	}
-	UpdateConversationDataByMessageID(parentMessageID, parentMessage)
+	updateConversationDataByMessageID(parentMessageID, parentMessage)
 }
 
-func SetMessage(userID string, parentMessageID string, messageID string, content string) {
-	refs := GetRefsByUserID(UserID(userID))
-	refs[messageID] = parentMessageID
-	UpdateRefsByUserID(UserID(userID), refs)
-
-	message, err := ConversationDataByMessageID(messageID)
+func SetMessage(userID string, parentMessageID string, messageID string, content string, isUser bool) {
+	message, err := getConversationDataByMessageID(messageID)
 	if err != nil {
 		message = Message{
 			ID:         messageID,
 			Content:    content,
 			CreateTime: time.Now(),
+			IsUser:     isUser,
 		}
 	}
+
 	message.Content = content
+	message.IsUser = isUser
+
+	uid := UserID(userID)
+	updateMessageParentRefs(uid, messageID, parentMessageID)
+
 	if parentMessageID != "" {
 		message.Parent = parentMessageID
 	}
 
-	UpdateConversationDataByMessageID(messageID, message)
+	updateConversationDataByMessageID(messageID, message)
 	LinkMessageToOtherAsChild(userID, parentMessageID, messageID)
 
-	Debug(UserID(userID))
+	Debug(uid)
 }
