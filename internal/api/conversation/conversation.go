@@ -117,7 +117,7 @@ func CreateConversation(brokerPool *eb.BrokersPool) func(c *gin.Context) {
 
 		switch userModel {
 		case datatypes.MODEL_MIDJOURNEY.Slug:
-			message := []byte(fmt.Sprintf("%s\n%s", parentMessageID, userPrompt))
+			message := midjourney.BuildMessage(data.ConversationID, parentMessageID, messageID, nextMessageID, userPrompt)
 			midjourney.PostMessage(midjourney.GetConn(), message)
 			broker.Serve(c, messageChan)
 			return
