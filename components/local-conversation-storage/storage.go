@@ -1,15 +1,10 @@
 package LocalConversationStorage
 
 import (
-	"os"
 	"time"
 
 	"github.com/soulteary/sparrow/internal/define"
 )
-
-func InitStorage(filename string) {
-	os.MkdirAll(filename, os.ModePerm)
-}
 
 // Determine whether the message is the root message
 func IsRootMessage(userID string, conversationID string, parentMessageID string) bool {

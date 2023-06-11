@@ -17,6 +17,9 @@ func getRefsByUserID(uid UserID) LinkReferences {
 
 func updateRefsByUserID(uid UserID, refs LinkReferences) {
 	Refs[uid] = refs
+
+	data, _ := define.MakeJSON(refs)
+	SaveMeta(string(uid), "refs.json", data)
 }
 
 func getParentRef(refs LinkReferences, messageID string) (ref string, exist bool) {
@@ -43,6 +46,9 @@ func getConversationsByUserID(uid UserID) []string {
 
 func updateConversationByUserID(uid UserID, conversations []string) {
 	Conversations[uid] = conversations
+
+	data, _ := define.MakeJSON(conversations)
+	SaveMeta(string(uid), "conversations.json", data)
 }
 
 func GetConversationDataByMessageID(messageID string) (Message, error) {
@@ -55,6 +61,9 @@ func GetConversationDataByMessageID(messageID string) (Message, error) {
 
 func updateConversationDataByMessageID(messageID string, data Message) {
 	Data[messageID] = data
+
+	jsonData, _ := define.MakeJSON(data)
+	SaveMessage(messageID, jsonData)
 }
 
 func IsStrInArray(strs []string, s string) bool {
