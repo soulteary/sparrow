@@ -13,6 +13,8 @@ func GetConversationList(userID string) datatypes.ConversationsList {
 	if !define.ENABLE_HISTORY_LIST {
 		items = []datatypes.ConversationListItem{}
 	} else {
+		items = []datatypes.ConversationListItem{}
+
 		conversationIDs := lcs.GetConversationListByUserID(userID)
 		if len(conversationIDs) == 0 {
 			items = []datatypes.ConversationListItem{}
