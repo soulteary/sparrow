@@ -11,9 +11,10 @@ import (
 )
 
 var Conn *websocket.Conn
+var Ready bool
 
-func GetConn() *websocket.Conn {
-	if Conn != nil {
+func GetConn(reconnect bool) *websocket.Conn {
+	if Conn != nil && !reconnect {
 		return Conn
 	} else {
 		log.Println("Connected to Midjoruney API server.")
@@ -28,13 +29,15 @@ func GetWebSocketConn(secret string) *websocket.Conn {
 
 	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {
+		Ready = false
 		log.Fatal("dial:", err)
 	}
+	Ready = true
 	return conn
 }
 
-func KeepConnection(brokerPool *eb.BrokersPool) {
-	conn := GetConn()
+func KeepConnection(brokerPool *eb.BrokersPool, reconnect bool) {
+	conn := GetConn(reconnect)
 	defer conn.Close()
 	done := make(chan bool)
 	CreateReceiver(&done, conn, brokerPool, FnReceiver())

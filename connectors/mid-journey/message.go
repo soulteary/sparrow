@@ -19,6 +19,7 @@ func PostMessage(conn *websocket.Conn, message []byte) error {
 	err := conn.WriteMessage(websocket.TextMessage, message)
 	if err != nil {
 		log.Println("write:", err)
+		Ready = false
 		return err
 	}
 	return nil
@@ -77,6 +78,7 @@ func FnReceiver() func(err error, p []byte, brokerPool *eb.BrokersPool) {
 	return func(err error, p []byte, brokerPool *eb.BrokersPool) {
 		if err != nil {
 			fmt.Println("Error receiving message", err)
+			Ready = false
 			return
 		}
 

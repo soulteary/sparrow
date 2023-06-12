@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	eb "github.com/soulteary/sparrow/components/event-broker"
 	lcs "github.com/soulteary/sparrow/components/local-conversation-storage"
@@ -28,7 +29,15 @@ func main() {
 	api.Backend(engine, brokerPool)
 
 	if define.ENABLE_MIDJOURNEY {
-		go midjourney.KeepConnection(brokerPool)
+		go func() {
+			for {
+				if !midjourney.Ready {
+					midjourney.KeepConnection(brokerPool, !midjourney.Ready)
+				}
+				time.Sleep(1 * time.Second)
+				fmt.Println("check midjourney")
+			}
+		}()
 	}
 
 	if define.ENABLE_CLAUDE {

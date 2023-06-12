@@ -22,12 +22,18 @@ func InitStorage(filename string) {
 }
 
 func SaveMeta(uid string, filename string, data string) {
+	if !define.ENABLE_HISTORY_LIST {
+		return
+	}
 	dir := filepath.Join(define.LOCAL_CONVERSATION_STORAGE_PATH, uid)
 	InitStorage(dir)
 	os.WriteFile(filepath.Join(dir, filename), []byte(data), os.ModePerm)
 }
 
 func SaveMessage(messageId string, data string) {
+	if !define.ENABLE_HISTORY_LIST {
+		return
+	}
 	dir := filepath.Join(define.LOCAL_CONVERSATION_STORAGE_PATH, "messages")
 	InitStorage(dir)
 	os.WriteFile(filepath.Join(dir, messageId+".json"), []byte(data), os.ModePerm)
@@ -58,6 +64,9 @@ func ParseRefs(uid string) (data map[string]string, err error) {
 }
 
 func LoadMeta() {
+	if !define.ENABLE_HISTORY_LIST {
+		return
+	}
 	dirs, _ := os.ReadDir(define.LOCAL_CONVERSATION_STORAGE_PATH)
 	users := []string{}
 	for _, dir := range dirs {
@@ -75,6 +84,9 @@ func LoadMeta() {
 }
 
 func LoadMessages() {
+	if !define.ENABLE_HISTORY_LIST {
+		return
+	}
 	files, _ := os.ReadDir(filepath.Join(define.LOCAL_CONVERSATION_STORAGE_PATH, "messages"))
 	messages := []string{}
 	for _, items := range files {
