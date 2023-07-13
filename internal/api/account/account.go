@@ -117,6 +117,10 @@ func GetFeatures() []string {
 		features = append(features, datatypes.FEATURE_PLUGIN_NEW_OAUTH)
 	}
 
+	if define.ENABLE_CHAT_PREFERENCES {
+		features = append(features, datatypes.FEATURE_CHAT_PREFERENCES)
+	}
+
 	if define.DEV_MODE {
 		features = append(features, datatypes.FEATURE_PROMPT_SUGGESTIONS)
 		features = append(features, datatypes.FEATURE_I18N)

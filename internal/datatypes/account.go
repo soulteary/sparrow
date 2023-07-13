@@ -84,5 +84,7 @@ const (
 	FEATURE_DEBUG               = "debug"                     // Developer permissions, debug mode
 	FEATURE_PLUGIN_NEW_OAUTH    = "new_plugin_oauth_endpoint" // Developer permissions, plug-in permissions, 0713 added
 
+	FEATURE_CHAT_PREFERENCES = "chat_preferences_available" // 23.07.13 Added, chat preferences
+
 	FEATURE_SYSTEM_MESSAGE2 = "system_message2"
 )
