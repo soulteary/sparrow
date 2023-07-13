@@ -1,0 +1,13 @@
+#!/bin/bash
+
+export ENABLE_HISTORY_LIST=true
+export ENABLE_DATA_CONTROL=true
+export ENABLE_MODEL_SWITCH=true
+export ENABLE_PLUGIN=true
+export ENABLE_PLUGIN_PLUGIN_DEV=true
+export ENABLE_PLUGIN_BROWSING=true
+export ENABLE_PLUGIN_CODE_INTERPRETER=true
+export ENABLE_CHAT_PREFERENCES=true
+export ENABLE_OPENAI_OFFICIAL_MODEL=true
+
+go run sparrow.go

@@ -80,6 +80,7 @@ func GetPluginFeatures() []string {
 
 	if define.ENABLE_PLUGIN_CODE_INTERPRETER {
 		features = append(features, datatypes.FEATURE_PLIGIN_CODE_INTERPRETER)
+		features = append(features, datatypes.FEATURE_PLUGIN_CODE_INTERPRETER2)
 	}
 
 	if define.ENABLE_PLUGIN {
@@ -97,7 +98,11 @@ func GetPluginFeatures() []string {
 
 func GetFeatures() []string {
 	features := GetDefaultFeatures()
+	features = append(features, datatypes.FEATURE_SHAREABLE_LINKS)
+	features = append(features, datatypes.FEATURE_LAYOUT_2023)
 	features = append(features, datatypes.FEATURE_ALLOW_BETA_FEATURES)
+	features = append(features, datatypes.FEATURE_IOS_USER_NO_CITATION_MENU)
+
 	features = append(features, GetDataControlsFeatures()...)
 	features = append(features, GetHistoryFeatures()...)
 
@@ -109,10 +114,10 @@ func GetFeatures() []string {
 		features = append(features, datatypes.FEATURE_DEBUG)
 		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_ADMIN)
 		features = append(features, datatypes.FEATURE_PLIGIN_PLUGIN_DEV)
+		features = append(features, datatypes.FEATURE_PLUGIN_NEW_OAUTH)
 	}
 
 	if define.DEV_MODE {
-		features = append(features, datatypes.FEATURE_SHAREABLE_LINKS)
 		features = append(features, datatypes.FEATURE_PROMPT_SUGGESTIONS)
 		features = append(features, datatypes.FEATURE_I18N)
 		features = append(features, datatypes.FEATURE_ACCOUNT_BUSINESS_SEATS)
