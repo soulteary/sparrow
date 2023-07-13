@@ -40,7 +40,8 @@ func StreamBuilder(userID string, conversationID string, parentMessageID string,
 			sequences = MakeStreamingMessage(output, modelSlug, conversationID, nextMessageID, mode)
 			quickMode = false
 		}
-	case datatypes.MODEL_TEXT_DAVINCI_002_PLUGINS.Slug:
+	// case datatypes.MODEL_TEXT_DAVINCI_002_PLUGINS.Slug:
+	case datatypes.MODEL_GPT4_PLUGIN.Slug:
 	// case datatypes.MODEL_TEXT_DAVINCI_002_RENDER_PAID.Slug:
 	case datatypes.MODEL_TEXT_DAVINCI_002_RENDER_SHA.Slug:
 	case datatypes.MODEL_GPT4.Slug:

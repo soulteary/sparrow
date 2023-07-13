@@ -10,9 +10,17 @@ type ModelsCategory struct {
 	HumanCategoryName    string `json:"human_category_name"`
 	SubscriptionLevel    string `json:"subscription_level"`
 	DefaultModel         string `json:"default_model"`
-	BrowsingModel        any    `json:"browsing_model"`
-	CodeInterpreterModel any    `json:"code_interpreter_model"`
-	PluginsModel         any    `json:"plugins_model"`
+	BrowsingModel        string `json:"browsing_model"`
+	CodeInterpreterModel string `json:"code_interpreter_model"`
+	PluginsModel         string `json:"plugins_model"`
+}
+
+type ModelProductFeaturesAttachments struct {
+	Type string `json:"type"`
+}
+
+type ModelProductFeatures struct {
+	Attachments ModelProductFeaturesAttachments `json:"attachments,omitempty"`
 }
 
 type ModelListItem struct {
@@ -20,8 +28,10 @@ type ModelListItem struct {
 	MaxTokens             int                            `json:"max_tokens"`
 	Title                 string                         `json:"title"`
 	Description           string                         `json:"description"`
-	Tags                  []string                       `json:"tags"` // "beta", "confidential", "alpha"
-	QualitativeProperties ModelListQualitativeProperties `json:"qualitative_properties"`
+	Tags                  []string                       `json:"tags"`                   // "beta", "confidential", "alpha"
+	QualitativeProperties ModelListQualitativeProperties `json:"qualitative_properties"` // removed 0713, keep a version for now
+	Capabilities          struct{}                       `json:"capabilities"`           // added 0713
+	ProductFeatures       ModelProductFeatures           `json:"product_features"`       // added 0713
 	EnabledTools          []string                       `json:"enabled_tools,omitempty"`
 }
 
@@ -32,15 +42,17 @@ type ModelListQualitativeProperties struct {
 }
 
 // Models represents the list of models available to the user
-var MODEL_TEXT_DAVINCI_002_PLUGINS = ModelListItem{
-	Slug:                  "text-davinci-002-plugins",
-	MaxTokens:             8195,
-	Title:                 "Plugins",
-	Description:           "An experimental model that knows when and how to use plugins",
-	Tags:                  []string{"alpha"},
-	QualitativeProperties: ModelListQualitativeProperties{},
-	EnabledTools:          []string{"tools3"},
-}
+
+// discard 23.07.13
+// var MODEL_TEXT_DAVINCI_002_PLUGINS = ModelListItem{
+// 	Slug:                  "text-davinci-002-plugins",
+// 	MaxTokens:             8195,
+// 	Title:                 "Plugins",
+// 	Description:           "An experimental model that knows when and how to use plugins",
+// 	Tags:                  []string{"alpha"},
+// 	QualitativeProperties: ModelListQualitativeProperties{},
+// 	EnabledTools:          []string{"tools3"},
+// }
 
 var MODEL_TEXT_DAVINCI_002_RENDER_SHA = ModelListItem{
 	Slug:        "text-davinci-002-render-sha",
@@ -60,7 +72,7 @@ var MODEL_TEXT_DAVINCI_002_RENDER_SHA_MOBILE = ModelListItem{
 	MaxTokens:   8191,
 	Title:       "Default (GPT-3.5) (Mobile)",
 	Description: "Our fastest model, great for most everyday tasks.",
-	Tags:        []string{"mobile"},
+	Tags:        []string{"mobile", "gpt3.5"},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{3, 5},
 		Speed:       []int{5, 5},
@@ -69,13 +81,13 @@ var MODEL_TEXT_DAVINCI_002_RENDER_SHA_MOBILE = ModelListItem{
 }
 
 var MODEL_TEXT_DAVINCI_002_RENDER_SHA_CATEGORY = ModelsCategory{
-	BrowsingModel:        nil,
 	Category:             "gpt_3.5",
-	CodeInterpreterModel: nil,
-	DefaultModel:         "text-davinci-002-render-sha",
 	HumanCategoryName:    "GPT-3.5",
-	PluginsModel:         nil,
 	SubscriptionLevel:    "free",
+	DefaultModel:         "text-davinci-002-render-sha",
+	BrowsingModel:        "text-davinci-002-render-sha-browsing",
+	CodeInterpreterModel: "text-davinci-002-render-sha-code-interpreter",
+	PluginsModel:         "text-davinci-002-render-sha-plugins",
 }
 
 // discard 23.05.14
@@ -117,10 +129,16 @@ var MODEL_GPT4_BROWSING = ModelListItem{
 
 var MODEL_GPT4_CODE = ModelListItem{
 	Slug:        "gpt-4-code-interpreter",
-	MaxTokens:   4095,
-	Title:       "GPT-4 Code Interpreter",
-	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
-	Tags:        []string{"beta"},
+	MaxTokens:   8192,
+	Title:       "Code Interpreter",
+	Description: "An experimental model that can solve tasks by generating Python code and executing it in a Jupyter notebook.\nYou can upload any kind of file, and ask model to analyse it, or produce a new file which you can download.",
+	Tags:        []string{"gpt4", "beta"},
+	ProductFeatures: ModelProductFeatures{
+		Attachments: ModelProductFeaturesAttachments{
+			Type: "code_interpreter",
+		},
+	},
+	EnabledTools: []string{"tools2"},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{5, 5},
 		Speed:       []int{2, 5},
@@ -130,7 +148,7 @@ var MODEL_GPT4_CODE = ModelListItem{
 
 var MODEL_GPT4_PLUGIN = ModelListItem{
 	Slug:                  "gpt-4-plugins",
-	MaxTokens:             8195,
+	MaxTokens:             8192,
 	Title:                 "Plugins",
 	Description:           "An experimental model that knows when and how to use plugins",
 	Tags:                  []string{"gpt4", "beta"},
@@ -143,7 +161,7 @@ var MODEL_GPT4_MOBILE = ModelListItem{
 	MaxTokens:   4095,
 	Title:       "GPT-4 (Mobile, V2)",
 	Description: "Our most capable model, great for tasks that require creativity and advanced reasoning.",
-	Tags:        []string{"mobile"},
+	Tags:        []string{"gpt4", "mobile"},
 	QualitativeProperties: ModelListQualitativeProperties{
 		Reasoning:   []int{5, 5},
 		Speed:       []int{2, 5},
@@ -152,13 +170,13 @@ var MODEL_GPT4_MOBILE = ModelListItem{
 }
 
 var MODEL_GPT4_CATEGORY = ModelsCategory{
-	BrowsingModel:        "gpt-4-browsing",
 	Category:             "gpt_4",
-	CodeInterpreterModel: "gpt-4-code-interpreter",
-	DefaultModel:         "gpt-4",
 	HumanCategoryName:    "GPT-4",
-	PluginsModel:         "gpt-4-plugins",
 	SubscriptionLevel:    "plus",
+	DefaultModel:         "gpt-4",
+	BrowsingModel:        "gpt-4-browsing",
+	CodeInterpreterModel: "gpt-4-code-interpreter",
+	PluginsModel:         "gpt-4-plugins",
 }
 
 var MODEL_OPENAI_API_3_5 = ModelListItem{

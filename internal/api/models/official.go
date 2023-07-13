@@ -7,7 +7,7 @@ import (
 
 func GetOfficialModels() (result []datatypes.ModelListItem) {
 	if define.ENABLE_PLUGIN {
-		model := datatypes.MODEL_TEXT_DAVINCI_002_PLUGINS
+		model := datatypes.MODEL_GPT4_PLUGIN
 		if define.ENABLE_I18N {
 			model.Title = "插件模型 (Plugins)"
 			model.Description = "一个试验中的模型，懂得如何使用插件。"
