@@ -28,6 +28,8 @@ var (
 	ENABLE_PLUGIN_PLUGIN_DEV       = GetBool("ENABLE_PLUGIN_PLUGIN_DEV", false)       // Enable the plugin
 	ENABLE_PLUGIN_BROWSING         = GetBool("ENABLE_PLUGIN_BROWSING", false)         // Enable the plugin, Browsing
 	ENABLE_PLUGIN_CODE_INTERPRETER = GetBool("ENABLE_PLUGIN_CODE_INTERPRETER", false) // Enable the plugin, CodeInterpreter
+
+	ENABLE_CHAT_PREFERENCES = GetBool("ENABLE_CHAT_PREFERENCES", false) // Enable the chat preferences
 )
 
 var (

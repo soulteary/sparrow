@@ -13,6 +13,7 @@ func BetaFeatures(c *gin.Context) {
 		Browsing:        false,
 		CodeInterpreter: false,
 		Plugins:         false,
+		ChatPreferences: false,
 	}
 
 	if define.ENABLE_PLUGIN {
@@ -25,6 +26,10 @@ func BetaFeatures(c *gin.Context) {
 
 	if define.ENABLE_PLUGIN_CODE_INTERPRETER {
 		features.CodeInterpreter = true
+	}
+
+	if define.ENABLE_CHAT_PREFERENCES {
+		features.ChatPreferences = true
 	}
 
 	c.JSON(http.StatusOK, features)
