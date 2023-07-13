@@ -8,7 +8,7 @@ import (
 )
 
 func GetConversationLimit() datatypes.ConversationLimit {
-	const INVOKE_MAX_CAP = 25
+	const INVOKE_MAX_CAP = 100
 	const INVOKE_HOUR_INTERVAL = 3
 	conversationLimit := datatypes.ConversationLimit{
 		MessageCap:       INVOKE_MAX_CAP,
