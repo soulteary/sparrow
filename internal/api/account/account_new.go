@@ -24,6 +24,8 @@ type NewTempAccount struct {
 	AccountID                             string           `json:"account_id"`
 	IsMostRecentExpiredSubscriptionGratis bool             `json:"is_most_recent_expired_subscription_gratis"`
 	HasPreviouslyPaidSubscription         bool             `json:"has_previously_paid_subscription"`
+	Name                                  any              `json:"name"`      // added 0713
+	Structure                             string           `json:"structure"` // added 0713
 }
 
 type NewTempEntitlement struct {
@@ -52,7 +54,7 @@ type NewTempAccounts struct {
 
 type NewTempCheck struct {
 	Accounts          NewTempAccounts `json:"accounts"`
-	TempApAvailableAt string          `json:"temp_ap_available_at"`
+	TempApAvailableAt string          `json:"temp_ap_available_at,omitempty"` // removed 0713
 }
 
 func AccountTempCheck(c *gin.Context) {
@@ -64,7 +66,7 @@ func AccountTempCheck(c *gin.Context) {
 					AccountUserID:   define.GenerateUUID(),
 					Processor: NewTempProcessor{
 						A001: NewTempProcessorTypes{
-							HasCustomerObject: true,
+							HasCustomerObject: false,
 						},
 						B001: NewTempProcessorTypes{
 							HasTransactionHistory: false,
@@ -72,19 +74,21 @@ func AccountTempCheck(c *gin.Context) {
 					},
 					AccountID:                             define.GenerateUUID(),
 					IsMostRecentExpiredSubscriptionGratis: false,
-					HasPreviouslyPaidSubscription:         true,
+					HasPreviouslyPaidSubscription:         false,
+					Name:                                  nil,        // added 0713
+					Structure:                             "personal", // added 0713
 				},
 				Features: GetFeatures(),
 				Entitlement: NewTempEntitlement{
 					SubscriptionID:        define.GenerateUUID(),
-					HasActiveSubscription: true,
-					SubscriptionPlan:      "chatgptplusplan",
+					HasActiveSubscription: false,
+					SubscriptionPlan:      "chatgptplusfreeplan",
 					ExpiresAt:             "2099-12-31T23:59:00+00:00",
 				},
 				LastActiveSubscription: NewTempLastActiveSubscription{
 					SubscriptionID:         define.GenerateUUID(),
 					PurchaseOriginPlatform: "chatgpt_web",
-					WillRenew:              true,
+					WillRenew:              false,
 				},
 			},
 		},
@@ -93,12 +97,20 @@ func AccountTempCheck(c *gin.Context) {
 
 	if !define.ENABLE_PAID_SUBSCRIPTION {
 		data.Accounts.Default.Entitlement.HasActiveSubscription = true
-		data.Accounts.Default.Entitlement.SubscriptionPlan = "chatgptplusplan" // or: "chatgptplusfreeplan"
 		data.Accounts.Default.Account.Processor.A001.HasCustomerObject = true
+		data.Accounts.Default.Account.HasPreviouslyPaidSubscription = false
+		data.Accounts.Default.LastActiveSubscription.WillRenew = false
+		data.Accounts.Default.Entitlement.SubscriptionPlan = ""
+		data.Accounts.Default.LastActiveSubscription.PurchaseOriginPlatform = "chatgpt_not_purchased"
 	} else {
 		data.Accounts.Default.Entitlement.HasActiveSubscription = false
-		data.Accounts.Default.Entitlement.SubscriptionPlan = ""
 		data.Accounts.Default.Account.Processor.A001.HasCustomerObject = false
+		data.Accounts.Default.Account.Processor.B001.HasTransactionHistory = true
+		data.Accounts.Default.Account.HasPreviouslyPaidSubscription = true
+		data.Accounts.Default.LastActiveSubscription.WillRenew = true
+		// chatgpt_web, chatgpt_mobile_ios, chatgpt_gratis_recepient, chatgpt_not_purchased
+		data.Accounts.Default.LastActiveSubscription.PurchaseOriginPlatform = "chatgpt_web"
+		data.Accounts.Default.Entitlement.SubscriptionPlan = "chatgptplusplan" // or: "chatgptplusfreeplan"
 	}
 
 	c.JSON(http.StatusOK, data)
