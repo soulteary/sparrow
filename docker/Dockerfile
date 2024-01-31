@@ -1,4 +1,4 @@
-FROM golang:1.20.0 AS Builder
+FROM golang:1.21 AS Builder
 ENV TZ=Asia/Shanghai
 WORKDIR /app
 ENV GO111MODULE=on
